@@ -6,8 +6,8 @@ contract Order {
         uint256 id;
         uint256 pid;
         uint256 quantity;
-        string from;
-        string to;
+        address from;
+        address to;
         uint256 rating;
         uint256 amount;
         string status;
@@ -16,16 +16,17 @@ contract Order {
     uint256[] public orderIds;
 
     function placeOrder(
-        uint256 id,
+        //uint256 id,
         uint256 pid,
         uint256 quantity,
-        string memory from,
-        string memory to,
+        address memory from,
+        address memory to,
         uint256 amount,
         string memory status
     ) public {
         orderDetails storage details = orders[id];
 
+        details.id = orderDetails.length()+1;
         details.pid = pid;
         details.quantity = quantity;
         details.from = from;
@@ -69,5 +70,9 @@ contract Order {
 
     function rate(uint256 id, uint256 rating) public {
         orders[id].rating = rating;
+    }
+
+    function deleteOrder(uint256 id) public{
+        orders[id].status = "Cancelled";
     }
 }
