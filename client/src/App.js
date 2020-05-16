@@ -1,10 +1,10 @@
 import React from 'react';
-import FactoryHome from './pages/Factory/FactoryHome';
+import UpdateStatus from './components/forms/UpdateStatus';
 
 function App() {
   return (
     <>
-      <FactoryHome />
+      <UpdateStatus />
     </>
   );
 }
