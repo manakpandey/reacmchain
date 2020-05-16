@@ -5,10 +5,9 @@ class ContactForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderNumber: "",
-      pid: "",
-      qty: "",
-     };
+      orderNumber: "",//dropdown of view orders
+      status: "" //dropdown
+    };
 
     this.handleChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,18 +16,20 @@ class ContactForm extends React.Component {
   handleInputChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    const pid = target.pid;
+    const orderNumber = target.orderNumber;
 
     this.setState({
-      [pid]: value
+      [orderNumber]: value
     });
-    console.log("Change detected. updated" + pid + " = " + value);
+    console.log("Change detected. Status updated" + orderNumber + " = " + value);
   }
 
   handleSubmit(event) {
     alert(
-      "Order is updated: " +
-        this.state.orderNumber
+      "Order status was updated: " +
+        this.state.orderNumber +
+        " // " +
+        this.state.status
     );
     event.preventDefault();
   }
@@ -37,7 +38,7 @@ class ContactForm extends React.Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
+          <div className="form-group">
             {/* <label for="nameInput">Name</label> */}
             <input
               type="int"
@@ -50,33 +51,21 @@ class ContactForm extends React.Component {
             />
           </div>
           <div className="form-group">
-            {/* <label for="nameInput">Name</label> */}
-            <input
-              type="int"
-              name="pid"
-              value={this.state.pid}
-              onChange={this.handleChange}
-              className="form-control"
-              id="pidInput"
-              placeholder="Product ID"
-            />
-          </div>
-          <div className="form-group">
             {/* <label for="emailInput">Name</label> */}
             <input
-              name="qty"
-              type="qty"
-              value={this.state.qty}
+              name="status"
+              type="status"
+              value={this.state.status}
               onChange={this.handleChange}
               className="form-control"
-              id="qtyImput"
-              placeholder="Quantity"
+              id="statusImput"
+              placeholder="Updated Status"
             />
           </div>
 
           <input
             type="submit"
-            value="Update Order"
+            value="Update Status"
             className="btn btn-primary"
           />
         </form>
@@ -87,7 +76,7 @@ class ContactForm extends React.Component {
 
 class MainTitle extends React.Component {
   render() {
-    return <h1>Update] Order</h1>;
+    return <h1>Update Status</h1>;
   }
 }
 
