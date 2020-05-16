@@ -5,6 +5,7 @@ contract Product{
     //Defining Product Structure
     struct productInfo{
         string name;
+        int price;
     }
     
     //Creating a map of id -> productInfo
