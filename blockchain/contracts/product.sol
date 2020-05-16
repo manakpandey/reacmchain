@@ -5,17 +5,18 @@ contract Product{
     //Defining Product Structure
     struct productInfo{
         string name;
-        int price;
+        uint256 price;
     }
     
     //Creating a map of id -> productInfo
     mapping(uint256 => productInfo) products;
     uint256[] public productIds;
 
-    function registerProduct(string memory name, uint256 id) public {
-        productInfo storage newProduct = products[id];
+    function registerProduct(string name, uint256 price) public {
+        productInfo storage newProduct = products[productIds.length + 1];
         newProduct.name = name;
-        productIds.push(id);
+        newProduct.price = price;
+        productIds.push(productIds.length + 1);
     }
     
     function getProduct(uint256 id) public view returns (string memory){
