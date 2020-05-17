@@ -5,6 +5,8 @@ import AppBar from "../../components/header/Header";
 import "./factory.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
+import FactorySuppliers from "./FactorySuppliers";
+import FactoryProducts from "./FactoryProducts";
 
 const Factory = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(4);
@@ -24,23 +26,25 @@ const Factory = ({ web3, account }) => {
             <PlaceOrder web3={web3} />
           </>
         );
-        case 2:
+      case 2:
         return (
           <>
             <AppBar title="Products" />
+            <FactoryProducts web3={web3} account={account} />
           </>
         );
-        case 3:
+      case 3:
         return (
           <>
             <AppBar title="Suppliers" />
+            <FactorySuppliers web3={web3} account={account} />
           </>
         );
       case 4:
         return (
           <>
             <AppBar title="Dealers" />
-            <FactoryDealers web3={web3} account={account}/>
+            <FactoryDealers web3={web3} account={account} />
           </>
         );
 
