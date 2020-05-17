@@ -1,77 +1,60 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { constants } from "../../config";
+import { userAbi } from "../../abi/abis";
 
+const AddDealer = ({ web3 }) => {
+  const UserContract = new web3.eth.Contract(
+    userAbi,
+    constants.contractAddress.User
+  );
 
-class ContactForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      email:'',
-      contactNo:''
-    };
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
 
-    this.handleChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const accounts = await window.ethereum.enable();
+    const account = accounts[0];
+    const gas = await UserContract.methods.addUser(address, 3).estimateGas();
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    
-    this.setState({
-      [name]: value
+    const result = await UserContract.methods.addUser(address, 3).send({
+      from: account,
+      gas,
     });
-    console.log('Change detected. State updated' + name + ' = ' + value);
-  }
+    console.log(result);
+  };
 
-  handleSubmit(event) {
-    alert('A form was submitted: ' + this.state.name + ' // ' + this.state.email);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit} >
-          <div className="form-group">
-            {/* <label for="nameInput">Name</label> */}
-            <input type="text" name="name" value={this.state.name} onChange={this.handleChange} className="form-control" id="nameImput" placeholder="Dealer Name" />
-          </div>
-          <div className="form-group">
-            {/* <label for="emailInput">Name</label> */}
-            <input name="email" type="email" value={this.state.email} onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Dealer Email" />
-          </div>
-          <div className="form-group">
-            {/* <label for="contactNoInput">Name</label> */}
-            <input name="contactNo" type="number" value={this.state.contactNo} onChange={this.handleChange} className="form-control" id="emailImput" placeholder="Dealer Contact No" />
-          </div>
-          <input type="submit" value="Add Dealer" className="btn btn-primary" />
-        </form>
+  return (
+    <div>
+      <div className="form-group">
+        <input
+          type="text"
+          name="name"
+          onChange={(t) => setName(t.target.value)}
+          className="form-control"
+          id="nameImput"
+          placeholder="Dealer Name"
+        />
       </div>
-    )
-  }
-}
-
-class MainTitle extends React.Component {
-  render(){
-    return(
-      <h1>Add Dealer</h1>
-    )
-  }
-}
-
-class App extends React.Component {
-  render(){
-    return(
-      <div>
-        <MainTitle/>
-        <ContactForm/>
+      <div className="form-group">
+        <input
+          name="address"
+          onChange={(t) => setAddress(t.target.value)}
+          className="form-control"
+          id="addressImput"
+          placeholder="Wallet Address"
+        />
       </div>
-    )
-  }
-}
+      <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+        Add Dealer
+      </button>
+    </div>
+  );
+};
 
+AddDealer.propTypes = {
+  web3: PropTypes.object,
+};
 
-export default App;
+export default AddDealer;

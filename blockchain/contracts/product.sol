@@ -12,7 +12,7 @@ contract Product{
     mapping(uint256 => productInfo) products;
     uint256[] public productIds;
 
-    function registerProduct(string name, uint256 price) public {
+    function registerProduct(string memory name, uint256 price) public {
         productInfo storage newProduct = products[productIds.length + 1];
         newProduct.name = name;
         newProduct.price = price;
