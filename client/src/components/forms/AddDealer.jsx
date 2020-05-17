@@ -21,6 +21,7 @@ const AddDealer = ({ web3, account }) => {
       gas,
     });
     console.log(result);
+    window.location.reload();
   };
 
   return (

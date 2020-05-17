@@ -79,7 +79,6 @@ const FactoryDealers = ({ web3, account }) => {
       const result = await UserContract.methods.getTotalUsers().call();
       for (let i = 0; i < result; i++) {
         const user = await UserContract.methods.getUserByIndex(i).call();
-        console.log(user);
         if (user[1] === "3") {
           Dealers.push(user);
         }
@@ -119,7 +118,7 @@ const FactoryDealers = ({ web3, account }) => {
               <TableBody>
                 {dealers.map((dealer) => (
                   <StyledTableRow key={dealer[3]}>
-                    <StyledTableCell align="right">{dealer[0]}</StyledTableCell>
+                    <StyledTableCell>{dealer[0]}</StyledTableCell>
                     <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
                     <StyledTableCell align="right">{dealer[3]}</StyledTableCell>
                   </StyledTableRow>
@@ -138,7 +137,7 @@ const FactoryDealers = ({ web3, account }) => {
             onClick={handleOpen}
           >
             <AiOutlinePlus size={24} className={classes.extendedIcon} />
-            Add Dealers
+            Add Dealer
           </Fab>
           <Fab
             color="secondary"
@@ -147,7 +146,7 @@ const FactoryDealers = ({ web3, account }) => {
             style={{ margin: 10 }}
           >
             <MdEdit size={24} className={classes.extendedIcon} />
-            Edit Dealers
+            Edit Dealer
           </Fab>
         </div>
       </div>
