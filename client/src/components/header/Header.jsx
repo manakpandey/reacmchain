@@ -8,7 +8,7 @@ const AppBar = ({ title }) => {
     <div className="header-container">
       <Typography
         variant="h5"
-        style={{ color: "#403d52", padding: 15, fontWeight: "bold" }}
+        style={{ color: "#403d52", padding: 10, fontWeight: "bold" }}
       >
         {title}
       </Typography>
