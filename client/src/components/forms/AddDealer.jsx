@@ -3,22 +3,20 @@ import PropTypes from "prop-types";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/abis";
 
-const AddDealer = ({ web3 }) => {
+const AddDealer = ({ web3, account }) => {
   const UserContract = new web3.eth.Contract(
     userAbi,
     constants.contractAddress.User
   );
 
   const [name, setName] = useState("");
+  const [phno, setPhno] = useState("");
   const [address, setAddress] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const accounts = await window.ethereum.enable();
-    const account = accounts[0];
-    const gas = await UserContract.methods.addUser(address, 3).estimateGas();
-
-    const result = await UserContract.methods.addUser(address, 3).send({
+    const gas = await UserContract.methods.addUser(address, 3, phno, name).estimateGas();
+    const result = await UserContract.methods.addUser(address, 3, phno, name).send({
       from: account,
       gas,
     });
@@ -33,8 +31,16 @@ const AddDealer = ({ web3 }) => {
           name="name"
           onChange={(t) => setName(t.target.value)}
           className="form-control"
-          id="nameImput"
           placeholder="Dealer Name"
+        />
+      </div>
+      <div className="form-group">
+        <input
+          type="tel"
+          name="phone"
+          onChange={(t) => setPhno(t.target.value)}
+          className="form-control"
+          placeholder="Dealer Phone Number" 
         />
       </div>
       <div className="form-group">
@@ -42,7 +48,6 @@ const AddDealer = ({ web3 }) => {
           name="address"
           onChange={(t) => setAddress(t.target.value)}
           className="form-control"
-          id="addressImput"
           placeholder="Wallet Address"
         />
       </div>
@@ -55,6 +60,7 @@ const AddDealer = ({ web3 }) => {
 
 AddDealer.propTypes = {
   web3: PropTypes.object,
+  account: PropTypes.string,
 };
 
 export default AddDealer;

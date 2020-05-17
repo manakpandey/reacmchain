@@ -6,7 +6,7 @@ import "./factory.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
 
-const Factory = ({ web3 }) => {
+const Factory = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(4);
 
   const Content = () => {
@@ -40,7 +40,7 @@ const Factory = ({ web3 }) => {
         return (
           <>
             <AppBar title="Dealers" />
-            <FactoryDealers web3={web3} />
+            <FactoryDealers web3={web3} account={account}/>
           </>
         );
 
@@ -63,6 +63,7 @@ const Factory = ({ web3 }) => {
 
 Factory.propTypes = {
   web3: PropTypes.object,
+  account: PropTypes.string,
 };
 
 export default Factory;
