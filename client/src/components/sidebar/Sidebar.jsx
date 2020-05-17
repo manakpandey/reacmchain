@@ -11,9 +11,9 @@ import {
 import { BsFileBreak } from "react-icons/bs";
 import { Avatar, Typography } from "@material-ui/core";
 
-const SidebarItem = ({ icon, text, interaction }) => {
+const SidebarItem = ({ icon, text, navigate, to }) => {
   return (
-    <div className="sidebar-item" onClick={() => interaction}>
+    <div className="sidebar-item" onClick={() => navigate(to)}>
       <span className="sidebar-icon">{icon}</span>
       <div className="item-text">{text}</div>
     </div>
@@ -23,10 +23,11 @@ const SidebarItem = ({ icon, text, interaction }) => {
 SidebarItem.propTypes = {
   icon: PropTypes.element,
   text: PropTypes.string,
-  interaction: PropTypes.func,
+  navigate: PropTypes.func,
+  to: PropTypes.number,
 };
 
-const Sidebar = () => {
+const Sidebar = ({ nav }) => {
   return (
     <div className="sidebar-container">
       <div className="sidebar-header">
@@ -41,17 +42,43 @@ const Sidebar = () => {
         </Typography>
       </div>
       <div className="sidebar-items">
-        <SidebarItem icon={<AiOutlineHome size={24} />} text={"Dashboard"} />
-        <SidebarItem icon={<AiOutlineBook size={24} />} text={"orders"} />
-        <SidebarItem icon={<BsFileBreak size={24} />} text={"products"} />
+        <SidebarItem
+          icon={<AiOutlineHome size={24} />}
+          text={"Dashboard"}
+          navigate={nav}
+          to={0}
+        />
+        <SidebarItem
+          icon={<AiOutlineBook size={24} />}
+          text={"orders"}
+          navigate={nav}
+          to={1}
+        />
+        <SidebarItem
+          icon={<BsFileBreak size={24} />}
+          text={"products"}
+          navigate={nav}
+          to={2}
+        />
         <SidebarItem
           icon={<AiOutlineShopping size={24} />}
           text={"suppliers"}
+          navigate={nav}
+          to={3}
         />
-        <SidebarItem icon={<AiOutlineShop size={24} />} text={"dealers"} />
-      </div>    
+        <SidebarItem
+          icon={<AiOutlineShop size={24} />}
+          text={"dealers"}
+          navigate={nav}
+          to={4}
+        />
+      </div>
     </div>
   );
+};
+
+Sidebar.propTypes = {
+  nav: PropTypes.func,
 };
 
 export default Sidebar;
