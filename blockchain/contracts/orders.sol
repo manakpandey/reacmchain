@@ -3,58 +3,45 @@ pragma solidity ^0.5.1;
 
 contract Order {
     struct orderDetails {
-        uint id;
-        uint pid;
-        uint quantity;
+        uint256 pid;
+        uint256 quantity;
         address from;
         address to;
-        uint rating;
-        uint amount;
-        uint status;
+        uint256 rating;
+        uint256 amount;
+        uint256 status;
     }
-    mapping(uint => orderDetails) orders;
-    uint[] public orderIds;
+    mapping(uint256 => orderDetails) orders;
+    uint256[] orderIds;
 
     function placeOrder(
-        //uint id,
-        uint pid,
-        uint quantity,
-        address  from,
-        address  to,
-        uint amount,
-        uint status
+        uint256 pid,
+        uint256 quantity,
+        address from,
+        address to,
+        uint256 amount
     ) public {
-        uint id= orderIds.length +1;
+        uint256 id = orderIds.length + 1;
         orderDetails storage details = orders[id];
 
-        details.id = id;
         details.pid = pid;
         details.quantity = quantity;
         details.from = from;
         details.to = to;
         details.amount = amount;
-        details.status = status;
+        details.status = 1;
+        details.rating = 2;
 
-        orderIds.push(id) - 1;
+        orderIds.push(id);
     }
 
-    function viewOrder(uint ID)
+    function viewOrder(uint256 ID)
         public
         view
-        returns (
-            uint,
-            uint,
-            uint,
-            address,
-            address,
-            uint,
-            uint,
-            uint
-        )
+        returns (uint256, uint256, address, address, uint256, uint256, uint256)
     {
         orderDetails storage od = orders[ID];
         return (
-            od.id,
             od.pid,
             od.quantity,
             od.from,
@@ -65,15 +52,15 @@ contract Order {
         );
     }
 
-    function updateStatus(uint id, uint status) public {
+    function updateStatus(uint256 id, uint256 status) public {
         orders[id].status = status;
     }
 
-    function rate(uint id, uint rating) public {
+    function rate(uint256 id, uint256 rating) public {
         orders[id].rating = rating;
     }
 
-    function deleteOrder(uint id) public{
+    function cancelOrder(uint256 id) public {
         orders[id].status = 0;
     }
 }
