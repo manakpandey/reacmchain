@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { BsFileBreak } from "react-icons/bs";
 import { Avatar, Typography } from "@material-ui/core";
+import Logo from "../commons/Logo";
 
 const SidebarItem = ({ icon, text, navigate, to }) => {
   return (
@@ -30,48 +31,52 @@ SidebarItem.propTypes = {
 const Sidebar = ({ nav }) => {
   return (
     <div className="sidebar-container">
-      <div className="sidebar-header">
+      <div>
+        <Logo />
+        <div className="sidebar-items">
+          <SidebarItem
+            icon={<AiOutlineHome size={24} />}
+            text={"Dashboard"}
+            navigate={nav}
+            to={0}
+          />
+          <SidebarItem
+            icon={<AiOutlineBook size={24} />}
+            text={"orders"}
+            navigate={nav}
+            to={1}
+          />
+          <SidebarItem
+            icon={<BsFileBreak size={24} />}
+            text={"products"}
+            navigate={nav}
+            to={2}
+          />
+          <SidebarItem
+            icon={<AiOutlineShopping size={24} />}
+            text={"suppliers"}
+            navigate={nav}
+            to={3}
+          />
+          <SidebarItem
+            icon={<AiOutlineShop size={24} />}
+            text={"dealers"}
+            navigate={nav}
+            to={4}
+          />
+        </div>
+      </div>
+
+      <div className="sidebar-footer">
         <Avatar>
           <AiOutlineUser />
         </Avatar>
         <Typography
-          variant="h5"
+          variant="subtitle1"
           style={{ paddingLeft: 20, paddingTop: 5, color: "#ffffff" }}
         >
           Factory
         </Typography>
-      </div>
-      <div className="sidebar-items">
-        <SidebarItem
-          icon={<AiOutlineHome size={24} />}
-          text={"Dashboard"}
-          navigate={nav}
-          to={0}
-        />
-        <SidebarItem
-          icon={<AiOutlineBook size={24} />}
-          text={"orders"}
-          navigate={nav}
-          to={1}
-        />
-        <SidebarItem
-          icon={<BsFileBreak size={24} />}
-          text={"products"}
-          navigate={nav}
-          to={2}
-        />
-        <SidebarItem
-          icon={<AiOutlineShopping size={24} />}
-          text={"suppliers"}
-          navigate={nav}
-          to={3}
-        />
-        <SidebarItem
-          icon={<AiOutlineShop size={24} />}
-          text={"dealers"}
-          navigate={nav}
-          to={4}
-        />
       </div>
     </div>
   );

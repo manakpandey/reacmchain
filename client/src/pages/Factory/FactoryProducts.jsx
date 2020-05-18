@@ -102,7 +102,7 @@ const FactoryProducts = ({ web3, account }) => {
   return (
     <>
       <div className="container-factory-content">
-        <div style={{ margin: 30, marginBottom: 100 }}>
+        <div style={{ marginTop: 30, marginBottom: 100 }}>
           <TableContainer component={Paper}>
             <Table className={classes.table}>
               <TableHead>
