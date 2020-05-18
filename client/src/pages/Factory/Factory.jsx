@@ -7,6 +7,9 @@ import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
 import FactorySuppliers from "./FactorySuppliers";
 import FactoryProducts from "./FactoryProducts";
+import SalesGraph from "../../components/salesgraph/salesgraph";
+import PChart from "../../components/piechart/piechart"
+
 
 const Factory = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(4);
@@ -17,6 +20,14 @@ const Factory = ({ web3, account }) => {
         return (
           <>
             <AppBar title="Dashboard" />
+            <div class = "dashboard-container">
+              <div class = "salesgraph">
+                <SalesGraph/>
+              </div>
+              <div class = "piechart">
+                <PChart/>
+              </div>
+            </div>
           </>
         );
       case 1:
@@ -59,7 +70,7 @@ const Factory = ({ web3, account }) => {
         <Sidebar nav={setActiveSection} />
       </div>
       <div className="content">
-        <Content />
+        <Content /> 
       </div>
     </div>
   );

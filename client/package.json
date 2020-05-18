@@ -13,6 +13,8 @@
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
     "react-scripts": "3.4.1",
+    "react-vis": "^1.11.7",
+    "recharts": "^1.8.5",
     "web3": "^1.2.7"
   },
   "scripts": {
