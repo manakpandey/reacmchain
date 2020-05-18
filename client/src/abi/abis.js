@@ -24,13 +24,7 @@ export const userAbi = [
       }
     ],
     "name": "addUser",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
@@ -54,6 +48,31 @@ export const userAbi = [
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "uAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "uName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "uPhno",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateUser",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

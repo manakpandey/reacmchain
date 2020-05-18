@@ -19,7 +19,7 @@ import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/abis";
-import AddDealer from "../../components/forms/AddDealer";
+import AddProduct from "../../components/forms/AddProduct";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -167,7 +167,7 @@ const FactoryProducts = ({ web3, account }) => {
         <Fade in={open}>
           <div className={classes.paper}>
               {/* Change this */}
-            <AddDealer web3={web3} account={account} />
+            <AddProduct web3={web3} account={account} />
           </div>
         </Fade>
       </Modal>

@@ -1,6 +1,6 @@
 export const constants = {
     contractAddress: {
-        User: '0x912390939E3Fa6Cae84461B6C335c22131C7a940',
+        User: '0x0bDfb5269E6C94c41f4b667DEa72428e147a7704',
         // add others here
     }
 }

@@ -39,7 +39,6 @@ contract User {
 
             details.name = uName;
             details.phno = uPhno;
-            userAddresses.push(uAddress);
         }
     }
 
