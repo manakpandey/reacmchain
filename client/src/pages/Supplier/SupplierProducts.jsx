@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./factory.css";
+import "./Supplier.css";
 import {
   Fab,
   Paper,
@@ -64,29 +64,30 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const FactoryDealers = ({ web3, account }) => {
+const SupplierProducts = ({ web3, account }) => {
   const classes = useStyles();
 
-  const [dealers, setDealers] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const UserContract = new web3.eth.Contract(
-      userAbi,
-      constants.contractAddress.User
-    );
-    async function getDealers() {
-      const Dealers = [];
-      const result = await UserContract.methods.getTotalUsers().call();
-      for (let i = 0; i < result; i++) {
-        const user = await UserContract.methods.getUserByIndex(i).call();
-        if (user[1] === "3") {
-          Dealers.push(user);
-        }
-      }
-      setDealers(Dealers);
-    }
-    getDealers();
-  }, [setDealers]);
+    // const UserContract = new web3.eth.Contract(
+    //   userAbi,
+    //   constants.contractAddress.User
+    // );
+    // -------Change This-----------
+    // async function getDealers() {
+    //   const Dealers = [];
+    //   const result = await UserContract.methods.getTotalUsers().call();
+    //   for (let i = 0; i < result; i++) {
+    //     const user = await UserContract.methods.getUserByIndex(i).call();
+    //     if (user[1] === "3") {
+    //       Dealers.push(user);
+    //     }
+    //   }
+    //   setDealers(Dealers);
+    // }
+    // getDealers();
+  }, [setProducts]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -106,17 +107,17 @@ const FactoryDealers = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell>PID</StyledTableCell>
                   <StyledTableCell align="right">
-                    Contact Number
+                    Name
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    Wallet Address
+                    Price (per unit)
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dealers.map((dealer) => (
+                {products.map((dealer) => (
                   <StyledTableRow key={dealer[3]}>
                     <StyledTableCell>{dealer[0]}</StyledTableCell>
                     <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
@@ -136,8 +137,8 @@ const FactoryDealers = ({ web3, account }) => {
             style={{ margin: 10, backgroundColor: "#000000" }}
             onClick={handleOpen}
           >
-            <AiOutlinePlus size={24}  className={classes.extendedIcon} />
-            Add Dealer
+            <AiOutlinePlus size={24} className={classes.extendedIcon} />
+            Add Product
           </Fab>
           <Fab
             color="secondary"
@@ -146,7 +147,7 @@ const FactoryDealers = ({ web3, account }) => {
             style={{ margin: 10 }}
           >
             <MdEdit size={24} className={classes.extendedIcon} />
-            Edit Dealer
+            Edit Product
           </Fab>
         </div>
       </div>
@@ -165,6 +166,7 @@ const FactoryDealers = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
+              {/* Change this */}
             <AddDealer web3={web3} account={account} />
           </div>
         </Fade>
@@ -173,9 +175,9 @@ const FactoryDealers = ({ web3, account }) => {
   );
 };
 
-FactoryDealers.propTypes = {
+SupplierProducts.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
 };
 
-export default FactoryDealers;
+export default SupplierProducts;

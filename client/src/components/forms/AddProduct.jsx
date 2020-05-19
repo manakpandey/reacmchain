@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { constants } from "../../config";
+import { userAbi } from "../../abi/abis";
 
 const AddProduct = () => {
   const [name, setName] = useState("");

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Sidebar from "../../components/sidebar/SidebarSupplier";
 import AppBar from "../../components/header/Header";
-import "./factory.css";
+import "./Supplier.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
-import FactoryDealers from "./FactoryDealers";
-import FactorySuppliers from "./FactorySuppliers";
-import FactoryProducts from "./FactoryProducts";
-import FactoryOrders from "./FactoryOrders";
+import FactoryProducts from "./SupplierProducts";
+import FactoryOrders from "./SupplierOrders";
 import { Typography } from "@material-ui/core";
 
-const Factory = ({ web3, account }) => {
+const Supplier = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(0);
 
   const Content = () => {
@@ -35,23 +33,14 @@ const Factory = ({ web3, account }) => {
             <FactoryProducts web3={web3} account={account} />
           </>
         );
-      case 3:
-        return (
-          <>
-            <Typography variant='h5'>Dealers</Typography>
-            <FactorySuppliers web3={web3} account={account} />
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <Typography variant='h5'>Dealers</Typography>
-            <FactoryDealers web3={web3} account={account} />
-          </>
-        );
+      
 
       default:
-        return <div />;
+        return (
+          <>
+            <Typography variant='h5'>Dashboard</Typography>
+          </>
+        );
     }
   };
 
@@ -67,9 +56,9 @@ const Factory = ({ web3, account }) => {
   );
 };
 
-Factory.propTypes = {
+Supplier.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
 };
 
-export default Factory;
+export default Supplier;
