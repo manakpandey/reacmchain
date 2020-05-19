@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/SidebarSupplier";
-import AppBar from "../../components/header/Header";
 import "./Supplier.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryProducts from "./SupplierProducts";
@@ -16,29 +15,28 @@ const Supplier = ({ web3, account }) => {
       case 0:
         return (
           <>
-            <Typography variant='h5'>Dashboard</Typography>
+            <Typography variant="h5">Dashboard</Typography>
           </>
         );
       case 1:
         return (
           <>
-            <Typography variant='h5'>Orders</Typography>
+            <Typography variant="h5">Orders</Typography>
             <FactoryOrders web3={web3} />
           </>
         );
       case 2:
         return (
           <>
-            <Typography variant='h5'>Products</Typography>
+            <Typography variant="h5">Products</Typography>
             <FactoryProducts web3={web3} account={account} />
           </>
         );
-      
 
       default:
         return (
           <>
-            <Typography variant='h5'>Dashboard</Typography>
+            <Typography variant="h5">Dashboard</Typography>
           </>
         );
     }

@@ -26,7 +26,7 @@ import { constants } from "../../config";
 import { userAbi } from "../../abi/abis";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 //import TabPending from "../../components/tables/TabPending";
-import TabMyOrders from "../../components/tables/TabMyOrders"
+import TabMyOrders from "../../components/tables/TabMyOrders";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -86,32 +86,23 @@ export default function SimpleTabs() {
   };
 
   return (
-<>
-<div>
-<div className={classes.root}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="tabs"
-        centered
-      >
-        <Tab label="My Orders" {...a11yProps(0)} />
-      </Tabs>
+    <>
+      <div>
+        <div className={classes.root}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="tabs"
+            centered
+          >
+            <Tab label="My Orders" {...a11yProps(0)} />
+          </Tabs>
 
-      
-
-      <TabPanel value={value} index={0}>
-        
-        <TabMyOrders/>
-      </TabPanel>
-    </div>
-
-
-        
+          <TabPanel value={value} index={0}>
+            <TabMyOrders />
+          </TabPanel>
+        </div>
       </div>
-
-      
-</>
-
+    </>
   );
 }

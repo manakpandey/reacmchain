@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import "./sidebar.css";
 import {
   AiOutlineHome,
-  AiOutlineShopping,
-  AiOutlineShop,
   AiOutlineBook,
   AiOutlineUser,
 } from "react-icons/ai";

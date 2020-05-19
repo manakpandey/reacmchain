@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/SidebarDealer";
-import AppBar from "../../components/header/Header";
 import "./dealer.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 import DealerOrders from "./DealerOrders";
@@ -15,17 +14,15 @@ const Dealer = ({ web3, account }) => {
       case 1:
         return (
           <>
-            <Typography variant='h5'>Place Order</Typography>
+            <Typography variant="h5">Place Order</Typography>
             <PlaceOrder />
-            
           </>
         );
-
 
       default:
         return (
           <>
-            <Typography variant='h5'>Dashboard</Typography>
+            <Typography variant="h5">Dashboard</Typography>
             <DealerOrders web3={web3} />
           </>
         );
@@ -40,7 +37,6 @@ const Dealer = ({ web3, account }) => {
       <div className="content">
         <Content />
       </div>
-      
     </div>
   );
 };

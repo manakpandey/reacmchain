@@ -108,9 +108,7 @@ const SupplierProducts = ({ web3, account }) => {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>PID</StyledTableCell>
-                  <StyledTableCell align="right">
-                    Name
-                  </StyledTableCell>
+                  <StyledTableCell align="right">Name</StyledTableCell>
                   <StyledTableCell align="right">
                     Price (per unit)
                   </StyledTableCell>
@@ -166,7 +164,7 @@ const SupplierProducts = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-              {/* Change this */}
+            {/* Change this */}
             <AddDealer web3={web3} account={account} />
           </div>
         </Fade>

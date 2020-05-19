@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import "./sidebar.css";
 import {
   AiOutlineHome,
-  AiOutlineShopping,
-  AiOutlineShop,
+
   AiOutlineBook,
   AiOutlineUser,
 } from "react-icons/ai";
-import { BsFileBreak } from "react-icons/bs";
 import { Avatar, Typography } from "@material-ui/core";
 import Logo from "../commons/Logo";
 

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-<<<<<<< HEAD
-import { userAbi } from "../../abi/abis";
-=======
 import { productAbi } from "../../abi/abis";
 
 const AddProduct = ({ web3, account, update, exit }) => {
@@ -11,7 +8,6 @@ const AddProduct = ({ web3, account, update, exit }) => {
     productAbi,
     constants.contractAddress.Product
   );
->>>>>>> 8546506fa18d035c5aab98b4bd4cac422eef52ff
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
