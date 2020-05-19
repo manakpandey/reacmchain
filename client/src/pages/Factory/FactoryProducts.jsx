@@ -20,6 +20,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
 import { productAbi } from "../../abi/abis";
 import AddProduct from "../../components/forms/AddProduct";
+import UpdateProduct from "../../components/forms/UpdateProduct";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +74,8 @@ const FactoryProducts = ({ web3, account }) => {
 
   const [products, setProducts] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
+  const [details, setDetails] = useState({});
 
   const handleOpen = () => {
     setOpen(true);
@@ -80,6 +83,14 @@ const FactoryProducts = ({ web3, account }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleUpdateOpen = () => {
+    setUpdateOpen(true);
+  };
+
+  const handleUpdateClose = () => {
+    setUpdateOpen(false);
   };
 
   const updateProducts = useCallback(async () => {
@@ -118,7 +129,13 @@ const FactoryProducts = ({ web3, account }) => {
                 {products.map((product) => (
                   <StyledTableRow key={product.id}>
                     <StyledTableCell>
-                      <MdEdit size={20} />
+                      <MdEdit
+                        size={20}
+                        onClick={() => {
+                          setDetails(product);
+                          handleUpdateOpen();
+                        }}
+                      />
                     </StyledTableCell>
                     <StyledTableCell>{product.id}</StyledTableCell>
                     <StyledTableCell align="right">
@@ -152,8 +169,8 @@ const FactoryProducts = ({ web3, account }) => {
       </div>
 
       <Modal
-        aria-labelledby="add-dealer"
-        aria-describedby="add-dealer-form"
+        aria-labelledby="add-product"
+        aria-describedby="add-product-form"
         className={classes.modal}
         open={open}
         onClose={handleClose}
@@ -169,6 +186,30 @@ const FactoryProducts = ({ web3, account }) => {
               web3={web3}
               account={account}
               exit={handleClose}
+              update={updateProducts}
+            />
+          </div>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="update-price"
+        aria-describedby="update-price-form"
+        className={classes.modal}
+        open={updateOpen}
+        onClose={handleUpdateClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={updateOpen}>
+          <div className={classes.paper}>
+            <UpdateProduct
+              web3={web3}
+              account={account}
+              details={details}
+              exit={handleUpdateClose}
               update={updateProducts}
             />
           </div>

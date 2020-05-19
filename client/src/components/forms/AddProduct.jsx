@@ -63,7 +63,7 @@ const AddProduct = ({ web3, account, update, exit }) => {
             placeholder="Product Price"
           />
         </div>
-        <button type="submit" value="Add Product" className="btn btn-primary" />
+        <button type="submit" className="btn btn-primary" >Add Product</button>
       </form>
     </div>
   );
