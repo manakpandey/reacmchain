@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/Sidebar";
-import AppBar from "../../components/header/Header";
 import "./factory.css";
 import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
@@ -15,12 +14,6 @@ const Factory = ({ web3, account }) => {
 
   const Content = () => {
     switch (activeSection) {
-      case 0:
-        return (
-          <>
-            <Typography variant='h5'>Dashboard</Typography>
-          </>
-        );
       case 1:
         return (
           <>
@@ -31,27 +24,31 @@ const Factory = ({ web3, account }) => {
       case 2:
         return (
           <>
-            <Typography variant='h5'>Products</Typography>
+            <Typography variant="h5">Products</Typography>
             <FactoryProducts web3={web3} account={account} />
           </>
         );
       case 3:
         return (
           <>
-            <Typography variant='h5'>Dealers</Typography>
+            <Typography variant="h5">Suppliers</Typography>
             <FactorySuppliers web3={web3} account={account} />
           </>
         );
       case 4:
         return (
           <>
-            <Typography variant='h5'>Dealers</Typography>
+            <Typography variant="h5">Dealers</Typography>
             <FactoryDealers web3={web3} account={account} />
           </>
         );
 
       default:
-        return <div />;
+        return (
+          <>
+            <Typography variant="h5">Dashboard</Typography>
+          </>
+        );
     }
   };
 

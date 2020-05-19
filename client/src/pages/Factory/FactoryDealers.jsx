@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import "./factory.css";
 import {
@@ -19,7 +19,8 @@ import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/abis";
-import AddDealer from "../../components/forms/AddDealer";
+import AddUser from "../../components/forms/AddUser";
+import UpdateUser from "../../components/forms/UpdateUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,30 +66,10 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const FactoryDealers = ({ web3, account }) => {
-  const classes = useStyles();
-
+  const [open, setOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
   const [dealers, setDealers] = useState([]);
-
-  useEffect(() => {
-    const UserContract = new web3.eth.Contract(
-      userAbi,
-      constants.contractAddress.User
-    );
-    async function getDealers() {
-      const Dealers = [];
-      const result = await UserContract.methods.getTotalUsers().call();
-      for (let i = 0; i < result; i++) {
-        const user = await UserContract.methods.getUserByIndex(i).call();
-        if (user[1] === "3") {
-          Dealers.push(user);
-        }
-      }
-      setDealers(Dealers);
-    }
-    getDealers();
-  }, [setDealers]);
-
-  const [open, setOpen] = React.useState(false);
+  const [updateDetails, setUpdateDetails] = useState({});
 
   const handleOpen = () => {
     setOpen(true);
@@ -98,6 +79,36 @@ const FactoryDealers = ({ web3, account }) => {
     setOpen(false);
   };
 
+  const updateHandleOpen = () => {
+    setUpdateOpen(true);
+  };
+
+  const updateHandleClose = () => {
+    setUpdateOpen(false);
+  };
+
+  const classes = useStyles();
+
+  const UserContract = new web3.eth.Contract(
+    userAbi,
+    constants.contractAddress.User
+  );
+  const updateDealer = useCallback(async () => {
+    const Dealers = [];
+    const result = await UserContract.methods.getTotalUsers().call();
+    for (let i = 0; i < result; i++) {
+      const user = await UserContract.methods.getUserByIndex(i).call();
+      if (user[1] === "3") {
+        Dealers.push(user);
+      }
+    }
+    setDealers(Dealers);
+  }, [UserContract, setDealers]);
+
+  useEffect(() => {
+    updateDealer();
+  }, [updateDealer]);
+
   return (
     <>
       <div className="container-factory-content">
@@ -106,6 +117,7 @@ const FactoryDealers = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
+                  <StyledTableCell style={{ width: 24 }}></StyledTableCell>
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell align="right">
                     Contact Number
@@ -118,6 +130,15 @@ const FactoryDealers = ({ web3, account }) => {
               <TableBody>
                 {dealers.map((dealer) => (
                   <StyledTableRow key={dealer[3]}>
+                    <StyledTableCell>
+                      <MdEdit
+                        size={20}
+                        onClick={() => {
+                          setUpdateDetails(dealer);
+                          updateHandleOpen();
+                        }}
+                      />
+                    </StyledTableCell>
                     <StyledTableCell>{dealer[0]}</StyledTableCell>
                     <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
                     <StyledTableCell align="right">{dealer[3]}</StyledTableCell>
@@ -139,15 +160,6 @@ const FactoryDealers = ({ web3, account }) => {
             <AiOutlinePlus size={24}  className={classes.extendedIcon} />
             Add Dealer
           </Fab>
-          <Fab
-            color="secondary"
-            aria-label="edit"
-            variant="extended"
-            style={{ margin: 10 }}
-          >
-            <MdEdit size={24} className={classes.extendedIcon} />
-            Edit Dealer
-          </Fab>
         </div>
       </div>
 
@@ -165,7 +177,41 @@ const FactoryDealers = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <AddDealer web3={web3} account={account} />
+            <AddUser
+              web3={web3}
+              account={account}
+              type="Dealer"
+              update={updateDealer}
+              exit={handleClose}
+            />
+          </div>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="update-dealer"
+        aria-describedby="update-dealer-form"
+        className={classes.modal}
+        open={updateOpen}
+        onClose={updateHandleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={updateOpen}>
+          <div className={classes.paper}>
+            <UpdateUser
+              web3={web3}
+              account={account}
+              userDetails={{
+                name: updateDetails[0],
+                phno: updateDetails[2],
+                address: updateDetails[3],
+              }}
+              update={updateDealer}
+              exit={updateHandleClose}
+            />
           </div>
         </Fade>
       </Modal>

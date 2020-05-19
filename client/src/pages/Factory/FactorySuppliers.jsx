@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import "./factory.css";
 import {
@@ -19,7 +19,9 @@ import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/abis";
-import AddDealer from "../../components/forms/AddDealer";
+import AddUser from "../../components/forms/AddUser";
+import UpdateUser from "../../components/forms/UpdateUser";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,31 +67,17 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const FactorySuppliers = ({ web3, account }) => {
-  const classes = useStyles();
-
+  
+  const [open, setOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
-
-  useEffect(() => {
-    const UserContract = new web3.eth.Contract(
-      userAbi,
-      constants.contractAddress.User
-    );
-    // -------Change This-----------
-    // async function getDealers() {
-    //   const Dealers = [];
-    //   const result = await UserContract.methods.getTotalUsers().call();
-    //   for (let i = 0; i < result; i++) {
-    //     const user = await UserContract.methods.getUserByIndex(i).call();
-    //     if (user[1] === "3") {
-    //       Dealers.push(user);
-    //     }
-    //   }
-    //   setDealers(Dealers);
-    // }
-    // getDealers();
-  }, [setSuppliers]);
-
-  const [open, setOpen] = React.useState(false);
+  const [updateDetails, setUpdateDetails] = useState({});
+  
+  const classes = useStyles();
+  const UserContract = new web3.eth.Contract(
+    userAbi,
+    constants.contractAddress.User
+  );
 
   const handleOpen = () => {
     setOpen(true);
@@ -99,6 +87,30 @@ const FactorySuppliers = ({ web3, account }) => {
     setOpen(false);
   };
 
+  const updateHandleOpen = () => {
+    setUpdateOpen(true);
+  };
+
+  const updateHandleClose = () => {
+    setUpdateOpen(false);
+  };
+
+  const updateSuppliers = useCallback(async () => {
+    const Suppliers = [];
+    const result = await UserContract.methods.getTotalUsers().call();
+    for (let i = 0; i < result; i++) {
+      const user = await UserContract.methods.getUserByIndex(i).call();
+      if (user[1] === "1") {
+        Suppliers.push(user);
+      }
+    }
+    setSuppliers(Suppliers);
+  }, [setSuppliers, UserContract]);
+
+  useEffect(() => {
+    updateSuppliers();
+  }, [updateSuppliers]);
+
   return (
     <>
       <div className="container-factory-content">
@@ -107,6 +119,7 @@ const FactorySuppliers = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
+                  <StyledTableCell style={{width:24}}></StyledTableCell>
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell align="right">
                     Contact Number
@@ -117,11 +130,20 @@ const FactorySuppliers = ({ web3, account }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {suppliers.map((dealer) => (
-                  <StyledTableRow key={dealer[3]}>
-                    <StyledTableCell>{dealer[0]}</StyledTableCell>
-                    <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
-                    <StyledTableCell align="right">{dealer[3]}</StyledTableCell>
+                {suppliers.map((user) => (
+                  <StyledTableRow key={user[3]}>
+                    <StyledTableCell>
+                      <MdEdit
+                        size={20}
+                        onClick={() => {
+                          setUpdateDetails(user);
+                          updateHandleOpen();
+                        }}
+                      />
+                      </StyledTableCell>
+                    <StyledTableCell>{user[0]}</StyledTableCell>
+                    <StyledTableCell align="right">{user[2]}</StyledTableCell>
+                    <StyledTableCell align="right">{user[3]}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -140,21 +162,12 @@ const FactorySuppliers = ({ web3, account }) => {
             <AiOutlinePlus size={24} className={classes.extendedIcon} />
             Add Supplier
           </Fab>
-          <Fab
-            color="secondary"
-            aria-label="edit"
-            variant="extended"
-            style={{ margin: 10 }}
-          >
-            <MdEdit size={24} className={classes.extendedIcon} />
-            Edit Supplier
-          </Fab>
         </div>
       </div>
 
       <Modal
-        aria-labelledby="add-dealer"
-        aria-describedby="add-dealer-form"
+        aria-labelledby="add-supplier"
+        aria-describedby="add-supplier-form"
         className={classes.modal}
         open={open}
         onClose={handleClose}
@@ -166,8 +179,41 @@ const FactorySuppliers = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-              {/* Change this */}
-            <AddDealer web3={web3} account={account} />
+            <AddUser
+              web3={web3}
+              account={account}
+              type="Supplier"
+              update={updateSuppliers}
+              exit={handleClose}
+            />
+          </div>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="update-supplier"
+        aria-describedby="update-supplier-form"
+        className={classes.modal}
+        open={updateOpen}
+        onClose={updateHandleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={updateOpen}>
+          <div className={classes.paper}>
+          <UpdateUser
+              web3={web3}
+              account={account}
+              userDetails={{
+                name: updateDetails[0],
+                phno: updateDetails[2],
+                address: updateDetails[3],
+              }}
+              update={updateSuppliers}
+              exit={updateHandleClose}
+            />
           </div>
         </Fade>
       </Modal>
