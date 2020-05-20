@@ -7,9 +7,9 @@ import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
 import FactorySuppliers from "./FactorySuppliers";
 import FactoryProducts from "./FactoryProducts";
-import SalesGraph from "../../components/salesgraph/salesgraph";
-import PChart from "../../components/piechart/piechart"
+import FactoryDashboard from "./FactoryDashboard"
 
+import { Typography } from "@material-ui/core";
 
 const Factory = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(4);
@@ -19,42 +19,35 @@ const Factory = ({ web3, account }) => {
       case 0:
         return (
           <>
-            <AppBar title="Dashboard" />
-            <div class = "dashboard-container">
-              <div class = "salesgraph">
-                <SalesGraph/>
-              </div>
-              <div class = "piechart">
-                <PChart/>
-              </div>
-            </div>
+            <Typography variant='h5'>Dashboard</Typography>
+            <FactoryDashboard/>
           </>
         );
       case 1:
         return (
           <>
-            <AppBar title="Orders" />
+            <Typography variant='h5'>Orders</Typography>
             <PlaceOrder web3={web3} />
           </>
         );
       case 2:
         return (
           <>
-            <AppBar title="Products" />
+            <Typography variant='h5'>Products</Typography>
             <FactoryProducts web3={web3} account={account} />
           </>
         );
       case 3:
         return (
           <>
-            <AppBar title="Suppliers" />
+            <Typography variant='h5'>Dealers</Typography>
             <FactorySuppliers web3={web3} account={account} />
           </>
         );
       case 4:
         return (
           <>
-            <AppBar title="Dealers" />
+            <Typography variant='h5'>Dealers</Typography>
             <FactoryDealers web3={web3} account={account} />
           </>
         );

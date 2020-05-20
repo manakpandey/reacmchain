@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
+import './salesgraph.css'
+import {Paper} from "@material-ui/core";
+
 
 const data = [
   {
@@ -42,12 +45,12 @@ const data = [
   },
 ];
 
-export default class SalesGraph extends PureComponent {
+class SalesGraph extends PureComponent {
 
   render() {
     return (
-        <BarChart width={1000}
-        height={400}
+        <ResponsiveContainer width="90%" height={300}>
+            <BarChart 
         data={data}
         margin={{
           top: 5, right: 30, left: 20, bottom: 5,
@@ -64,6 +67,9 @@ export default class SalesGraph extends PureComponent {
         <Legend />
         <Bar dataKey="sales" fill="#8884d8" />
       </BarChart>
+        </ResponsiveContainer>
     );
   }
 }
+
+export default SalesGraph;

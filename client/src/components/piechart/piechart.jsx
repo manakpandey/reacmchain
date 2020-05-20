@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  PieChart, Pie, Sector, Cell,
+  PieChart, Pie, Sector, Cell, ResponsiveContainer
 } from 'recharts';
 
 const data = [
@@ -30,10 +30,11 @@ const renderCustomizedLabel = ({
 export default class PChart extends PureComponent {
   render() {
     return (
-      <PieChart width={700} height={700}>
+        <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
         <Pie
           data={data}
-          cx={200}
+          cx={250}
           cy={200}
           labelLine={false}
           label={renderCustomizedLabel}
@@ -46,6 +47,7 @@ export default class PChart extends PureComponent {
           }
         </Pie>
       </PieChart>
+        </ResponsiveContainer>
     );
   }
 }

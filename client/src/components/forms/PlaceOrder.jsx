@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../forms/Form.css';
 
 const PlaceOrder = () => {
   const [pname, setPname] = useState("");
@@ -12,7 +13,8 @@ const PlaceOrder = () => {
   };
 
   return (
-    <div>
+    <div class = "formcontainer">
+      <h3>Place Order</h3>
       <div className="form-group">
         <input
           type="string"
