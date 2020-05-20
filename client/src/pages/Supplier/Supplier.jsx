@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/SidebarSupplier";
 import "./Supplier.css";
-import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryProducts from "./SupplierProducts";
 import FactoryOrders from "./SupplierOrders";
 import { Typography } from "@material-ui/core";

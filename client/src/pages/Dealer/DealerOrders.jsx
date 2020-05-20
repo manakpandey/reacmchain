@@ -1,31 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import "./dealer.css";
-import {
-  Fab,
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Modal,
-  Fade,
-  Backdrop,
-} from "@material-ui/core";
-import { AiOutlinePlus } from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
-import { constants } from "../../config";
-import { userAbi } from "../../abi/abis";
-import PlaceOrder from "../../components/forms/PlaceOrder";
-//import TabPending from "../../components/tables/TabPending";
+
 import TabMyOrders from "../../components/tables/TabMyOrders";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

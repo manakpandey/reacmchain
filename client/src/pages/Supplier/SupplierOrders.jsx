@@ -1,30 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import "./Supplier.css";
-import {
-  Fab,
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Modal,
-  Fade,
-  Backdrop,
-} from "@material-ui/core";
-import { AiOutlinePlus } from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
-import { constants } from "../../config";
-import { userAbi } from "../../abi/abis";
-import AddDealer from "../../components/forms/AddDealer";
 import TabPending from "../../components/tables/TabPending";
 
 function TabPanel(props) {
@@ -97,23 +78,6 @@ export default function SimpleTabs() {
       </TabPanel> */}
     </div>
 
-    // <Modal
-    // aria-labelledby="place-order"
-    // aria-describedby="place-order-form"
-    // className={classes.modal}
-    // open={open}
-    // onClose={handleClose}
-    // closeAfterTransition
-    // BackdropComponent={Backdrop}
-    // BackdropProps={{
-    //   timeout: 500,
-    // }}
-    // >
-    // <Fade in={open}>
-    //   <div className={classes.paper}>
-    //     <AddDealer web3={web3} account={account} />
-    //   </div>
-    // </Fade>
-    // </Modal>
+    
   );
 }

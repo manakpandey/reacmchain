@@ -1,12 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-//import "./factory.css";
 import {
   Fab,
   Paper,
@@ -20,11 +14,7 @@ import {
   Fade,
   Backdrop,
 } from "@material-ui/core";
-import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
-import { constants } from "../../config";
-import { userAbi } from "../../abi/abis";
-import AddDealer from "../../components/forms/AddDealer";
 import { FcBadDecision } from "react-icons/fc";
 import { FcApproval } from "react-icons/fc";
 import { FcCancel } from "react-icons/fc";

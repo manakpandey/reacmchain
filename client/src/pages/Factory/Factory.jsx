@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./factory.css";
-import PlaceOrder from "../../components/forms/PlaceOrder";
 import FactoryDealers from "./FactoryDealers";
 import FactorySuppliers from "./FactorySuppliers";
 import FactoryProducts from "./FactoryProducts";

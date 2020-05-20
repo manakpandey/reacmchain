@@ -22,7 +22,6 @@ import { userAbi } from "../../abi/abis";
 import AddUser from "../../components/forms/AddUser";
 import UpdateUser from "../../components/forms/UpdateUser";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -67,12 +66,11 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const FactorySuppliers = ({ web3, account }) => {
-  
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
   const [updateDetails, setUpdateDetails] = useState({});
-  
+
   const classes = useStyles();
   const UserContract = new web3.eth.Contract(
     userAbi,
@@ -119,7 +117,7 @@ const FactorySuppliers = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell style={{width:24}}></StyledTableCell>
+                  <StyledTableCell style={{ width: 24 }}></StyledTableCell>
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell align="right">
                     Contact Number
@@ -140,7 +138,7 @@ const FactorySuppliers = ({ web3, account }) => {
                           updateHandleOpen();
                         }}
                       />
-                      </StyledTableCell>
+                    </StyledTableCell>
                     <StyledTableCell>{user[0]}</StyledTableCell>
                     <StyledTableCell align="right">{user[2]}</StyledTableCell>
                     <StyledTableCell align="right">{user[3]}</StyledTableCell>
@@ -203,7 +201,7 @@ const FactorySuppliers = ({ web3, account }) => {
       >
         <Fade in={updateOpen}>
           <div className={classes.paper}>
-          <UpdateUser
+            <UpdateUser
               web3={web3}
               account={account}
               userDetails={{
