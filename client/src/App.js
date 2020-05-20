@@ -52,9 +52,9 @@ function App() {
   const Home = () => {
     switch (userType) {
       case "1":
-        return <Factory web3={web3} account={account} />;
-      case "2":
         return <Supplier web3={web3} account={account} />;
+      case "2":
+        return <Factory web3={web3} account={account} />;
       case "3":
         return <Dealer web3={web3} account={account} />;
       default:

@@ -73,25 +73,9 @@ contract User {
         );
     }
 
-    function isAdmin() public view returns (bool) {
-        return users[msg.sender].userType == 1;
-    }
-
-    function isFactory() public view returns (bool) {
-        return users[msg.sender].userType == 2;
-    }
-
-    function isSupplier() public view returns (bool) {
-        return users[msg.sender].userType == 3;
-    }
-
-    function isDealer() public view returns (bool) {
-        return users[msg.sender].userType == 4;
-    }
-
     function setup(string memory name, uint phno) public{
         if(isFirstRun()){
-            addUser(msg.sender, 1, phno, name);
+            addUser(msg.sender, 2, phno, name);
             firstRun = false;
         }
     }
