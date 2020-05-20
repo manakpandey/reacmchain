@@ -10,6 +10,8 @@ contract User {
     mapping(address => userDetails) users;
     address[] userAddresses;
 
+    bool firstRun = true;
+
     function addUser(
         address uAddress,
         uint256 uType,
@@ -85,5 +87,16 @@ contract User {
 
     function isDealer() public view returns (bool) {
         return users[msg.sender].userType == 4;
+    }
+
+    function setup(string memory name, uint phno) public{
+        if(isFirstRun()){
+            addUser(msg.sender, 1, phno, name);
+            firstRun = false;
+        }
+    }
+
+    function isFirstRun() public view returns (bool) {
+        return firstRun;
     }
 }

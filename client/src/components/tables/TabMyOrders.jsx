@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
-  Fab,
   Paper,
   TableContainer,
   Table,
@@ -10,9 +9,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Modal,
-  Fade,
-  Backdrop,
 } from "@material-ui/core";
 import { FcBadDecision } from "react-icons/fc";
 import { FcApproval } from "react-icons/fc";
@@ -68,7 +64,7 @@ const StatusUpdate = ({ status }) => {
     case 0:
       return (
         <>
-          <FcCancel size={20} style={{padding:2}}/>
+          <FcCancel size={20} style={{ padding: 2 }} />
           Cancelled
         </>
       );
@@ -108,16 +104,6 @@ const StatusUpdate = ({ status }) => {
 
 const TabMyOrders = ({ web3, account }) => {
   const classes = useStyles();
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const orders = [
     {

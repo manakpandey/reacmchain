@@ -10,9 +10,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Modal,
-  Fade,
-  Backdrop,
 } from "@material-ui/core";
 import { MdEdit } from "react-icons/md";
 import { FcBadDecision } from "react-icons/fc";
@@ -69,7 +66,7 @@ const StatusUpdate = ({ status }) => {
     case 0:
       return (
         <>
-          <FcCancel size={20} style={{padding:2}}/>
+          <FcCancel size={20} style={{ padding: 2 }} />
           Cancelled
         </>
       );
@@ -110,16 +107,6 @@ const StatusUpdate = ({ status }) => {
 const TabPending = ({ web3, account }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const orders = [
     {
       oid: 1,
@@ -134,59 +121,62 @@ const TabPending = ({ web3, account }) => {
 
   return (
     <div>
-    <div className="container-factory-content">
-      <div style={{ margin: 30, marginBottom: 100 }}>
-        <TableContainer component={Paper}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>OrderID</StyledTableCell>
-                <StyledTableCell align="right">Dealer</StyledTableCell>
-                <StyledTableCell align="right">Date of order</StyledTableCell>
-                <StyledTableCell align="right">Product Name</StyledTableCell>
-                <StyledTableCell align="right">Quantity</StyledTableCell>
-                <StyledTableCell align="right">Amount paid</StyledTableCell>
-                <StyledTableCell align="right">Status</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orders.map((order) => (
-                <StyledTableRow key={order.oid}>
-                  <StyledTableCell>{order.oid}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    {order.dealer}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{order.date}</StyledTableCell>
-                  <StyledTableCell align="right">{order.pname}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    {order.quantity}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {order.amount}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <StatusUpdate status={order.status} />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <div className="container-factory-content">
+        <div style={{ margin: 30, marginBottom: 100 }}>
+          <TableContainer component={Paper}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>OrderID</StyledTableCell>
+                  <StyledTableCell align="right">Dealer</StyledTableCell>
+                  <StyledTableCell align="right">Date of order</StyledTableCell>
+                  <StyledTableCell align="right">Product Name</StyledTableCell>
+                  <StyledTableCell align="right">Quantity</StyledTableCell>
+                  <StyledTableCell align="right">Amount paid</StyledTableCell>
+                  <StyledTableCell align="right">Status</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders.map((order) => (
+                  <StyledTableRow key={order.oid}>
+                    <StyledTableCell>{order.oid}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {order.dealer}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {order.date}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {order.pname}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {order.quantity}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {order.amount}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <StatusUpdate status={order.status} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+      <div align="right">
+        <Fab
+          color="secondary"
+          aria-label="edit"
+          variant="extended"
+          style={{ margin: 10 }}
+        >
+          <MdEdit size={24} />
+          Update Status
+        </Fab>
       </div>
     </div>
-    <div align="right">
-    <Fab
-            color="secondary"
-            aria-label="edit"
-            variant="extended"
-            style={{ margin: 10 }}
-          >
-            <MdEdit size={24}  />
-            Update Status
-          </Fab>
-          </div>
-          </div>
-
   );
 };
 

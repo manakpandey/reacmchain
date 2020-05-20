@@ -217,6 +217,41 @@ export const userAbi = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    constant: false,
+    inputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "phno",
+        type: "uint256",
+      },
+    ],
+    name: "setup",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "isFirstRun",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 
 export const productAbi = [

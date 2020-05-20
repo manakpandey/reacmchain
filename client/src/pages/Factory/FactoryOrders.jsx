@@ -8,20 +8,11 @@ import Box from "@material-ui/core/Box";
 import "./factory.css";
 import {
   Fab,
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Modal,
   Fade,
   Backdrop,
 } from "@material-ui/core";
 import { AiOutlinePlus } from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
-import PlaceOrder from "../../components/forms/PlaceOrder";
 import TabPending from "../../components/tables/TabPending";
 import TabMyOrders from "../../components/tables/TabMyOrders"
 function TabPanel(props) {
