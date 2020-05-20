@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/SidebarDealer";
 import "./dealer.css";
-import PlaceOrder from "../../components/forms/PlaceOrder";
 import DealerOrders from "./DealerOrders";
 import { Typography } from "@material-ui/core";
 
@@ -15,7 +14,6 @@ const Dealer = ({ web3, account }) => {
         return (
           <>
             <Typography variant="h5">Place Order</Typography>
-            <PlaceOrder />
           </>
         );
 

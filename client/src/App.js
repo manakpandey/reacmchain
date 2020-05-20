@@ -4,7 +4,7 @@ import Factory from "./pages/Factory/Factory";
 import Supplier from "./pages/Supplier/Supplier";
 import Dealer from "./pages/Dealer/Dealer";
 import { constants } from "./config";
-import { userAbi } from "./abi/abis";
+import { userAbi } from "./abi/user.abi";
 
 const web3 = new Web3(Web3.givenProvider);
 

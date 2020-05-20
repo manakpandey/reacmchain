@@ -18,7 +18,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/abis";
+import { productAbi } from "../../abi/product.abi";
 import AddProduct from "../../components/forms/AddProduct";
 import UpdateProduct from "../../components/forms/UpdateProduct";
 

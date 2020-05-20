@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/abis";
+import { productAbi } from "../../abi/product.abi";
 
 const AddProduct = ({ web3, account, update, exit }) => {
   const ProductContract = new web3.eth.Contract(

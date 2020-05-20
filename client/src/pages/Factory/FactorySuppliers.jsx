@@ -18,7 +18,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
-import { userAbi } from "../../abi/abis";
+import { userAbi } from "../../abi/user.abi";
 import AddUser from "../../components/forms/AddUser";
 import UpdateUser from "../../components/forms/UpdateUser";
 
