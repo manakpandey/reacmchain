@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
 import { productAbi } from "../../abi/product.abi";
-//import AddProductDropdown from "./AddProductDropdown";
 
 const AddProduct = ({ web3, account, update, exit }) => {
   const ProductContract = new web3.eth.Contract(
@@ -11,18 +10,15 @@ const AddProduct = ({ web3, account, update, exit }) => {
   );
 
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [qtyInStock, setQtyInStock] = useState(0);
-  const [rawProducts, setrawProducts]= useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const gas = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
+        .addProduct(name)
         .estimateGas();
       const result = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
+        .addProduct(name)
         .send({
           from: account,
           gas,
@@ -47,31 +43,9 @@ const AddProduct = ({ web3, account, update, exit }) => {
             placeholder="Product Name"
           />
         </div>
-        <div className="form-group">
-          <input
-            name="price"
-            type="int"
-            onChange={(t) => setPrice(t.target.value)}
-            className="form-control"
-            placeholder="Product Price"
-          />
-        </div>
         
         
-        <div className="form-group">
-        <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="inputGroupSelect01">Options</label>
-  </div>
-  <select class="custom-select" id="inputGroupSelect01">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-</div>
-        </div>
-        <button type="submit" className="btn btn-primary" >Add Product</button>
+        <button type="submit" className="btn btn-primary" >Add Raw Product</button>
       </form>
     </div>
   );

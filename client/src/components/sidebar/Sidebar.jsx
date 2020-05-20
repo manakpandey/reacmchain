@@ -64,6 +64,13 @@ const Sidebar = ({ nav }) => {
             navigate={nav}
             to={4}
           />
+          <SidebarItem
+            icon={<AiOutlineShop size={24} />}
+            text={"Raw Products"}
+            navigate={nav}
+            to={5}
+          />
+          
         </div>
       </div>
 

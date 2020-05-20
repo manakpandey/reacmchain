@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./factory.css";
+import FactoryRawProducts from "./FactoryRawProducts";
 import FactoryDealers from "./FactoryDealers";
 import FactorySuppliers from "./FactorySuppliers";
 import FactoryProducts from "./FactoryProducts";
@@ -41,7 +42,13 @@ const Factory = ({ web3, account }) => {
             <FactoryDealers web3={web3} account={account} />
           </>
         );
-
+        case 5:
+          return (
+            <>
+              <Typography variant="h5">Raw Products</Typography>
+              <FactoryRawProducts web3={web3} account={account} />
+            </>
+          );
       default:
         return (
           <>
