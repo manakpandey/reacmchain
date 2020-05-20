@@ -26,11 +26,11 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
   const [supplierList, setSupplierList] = useState([]);
   const [selectedSupplier, setSupplier] = useState("");
 
-  const RawProductContract = web3.eth.Contract(
+  const RawProductContract = new web3.eth.Contract(
     rawProductAbi,
     constants.contractAddress.RawProduct
   );
-  const MappingContract = web3.eth.Contract(
+  const MappingContract = new web3.eth.Contract(
     mappingAbi,
     constants.contractAddress.Mapping
   );
@@ -74,7 +74,14 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
     }
     getAllRawProducts();
     getAllSuppliersAndMappings();
-  }, [setMapping, setProducts, setSuppliers]);
+  }, [
+    setMapping,
+    setProducts,
+    setSuppliers,
+    MappingContract.methods,
+    RawProductContract.methods,
+    UserContract.methods,
+  ]);
 
   async function filterSuppliers() {
     const Suppliers = [];
@@ -112,9 +119,11 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
           }}
         >
           <option aria-label="None" value="" />
-          {products.map((product) => {
-            <option value={product.id}>{product.name}</option>;
-          })}
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name}
+            </option>
+          ))}
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
@@ -128,11 +137,14 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
           }}
         >
           <option aria-label="None" value="" />
-          {supplierList.map((supplier) => {
-            <option value={supplier.id}>{supplier.name}</option>;
-          })}
+          {supplierList.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name}
+            </option>
+          ))}
         </Select>
       </FormControl>
+      <FormControl>
       <div className="form-group">
         <input
           type="int"
@@ -143,6 +155,8 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
           placeholder="Quantity"
         />
       </div>
+      </FormControl>
+      
 
       <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
         Place Order

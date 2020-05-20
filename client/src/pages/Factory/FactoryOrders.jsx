@@ -6,15 +6,11 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import "./factory.css";
-import {
-  Fab,
-  Modal,
-  Fade,
-  Backdrop,
-} from "@material-ui/core";
+import { Fab, Modal, Fade, Backdrop } from "@material-ui/core";
 import { AiOutlinePlus } from "react-icons/ai";
 import TabPending from "../../components/tables/TabPending";
-import TabMyOrders from "../../components/tables/TabMyOrders"
+import TabMyOrders from "../../components/tables/TabMyOrders";
+import PlaceOrderRaw from "../../components/forms/PlaceOrderRaw";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -55,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+const FactoryOrders = ({ web3, account }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -74,28 +70,27 @@ export default function SimpleTabs() {
   };
 
   return (
-<>
-<div>
-<div className={classes.root}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="simple tabs example"
-        centered
-      >
-        <Tab label="Pending Orders" {...a11yProps(0)} />
-        <Tab label="My Orders" {...a11yProps(1)} />
-      </Tabs>
+    <>
+      <div>
+        <div className={classes.root}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="simple tabs example"
+            centered
+          >
+            <Tab label="Pending Orders" {...a11yProps(0)} />
+            <Tab label="My Orders" {...a11yProps(1)} />
+          </Tabs>
 
-      <TabPanel value={value} index={0}>
-        <TabPending />
-      </TabPanel>
+          <TabPanel value={value} index={0}>
+            <TabPending />
+          </TabPanel>
 
-      <TabPanel value={value} index={1}>
-        <TabMyOrders/>
-      </TabPanel>
-    </div>
-
+          <TabPanel value={value} index={1}>
+            <TabMyOrders />
+          </TabPanel>
+        </div>
 
         <div style={{ position: "absolute", bottom: 10, alignSelf: "center" }}>
           <Fab
@@ -105,7 +100,7 @@ export default function SimpleTabs() {
             style={{ margin: 10, backgroundColor: "#000000" }}
             onClick={handleOpen}
           >
-            <AiOutlinePlus size={24}  />
+            <AiOutlinePlus size={24} />
             Place Order
           </Fab>
           {/* <Fab
@@ -133,13 +128,11 @@ export default function SimpleTabs() {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
-              Change this
-            {/* <PlaceOrder web3={web3} account={account} /> */}
-          </div>
+            <PlaceOrderRaw web3={web3} account={account} />
         </Fade>
       </Modal>
-</>
-
+    </>
   );
-}
+};
+
+export default FactoryOrders;
