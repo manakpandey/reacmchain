@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/SidebarDealer";
 import "./dealer.css";
 import DealerOrders from "./DealerOrders";
 import { Typography } from "@material-ui/core";
+import PlaceOrder from "../../components/forms/PlaceOrder";
 
 const Dealer = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(0);
@@ -14,6 +15,7 @@ const Dealer = ({ web3, account }) => {
         return (
           <>
             <Typography variant="h5">Place Order</Typography>
+            <PlaceOrder web3={web3} account={account} />
           </>
         );
 

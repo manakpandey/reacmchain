@@ -103,15 +103,6 @@ const FactoryOrders = ({ web3, account }) => {
             <AiOutlinePlus size={24} />
             Place Order
           </Fab>
-          {/* <Fab
-            color="secondary"
-            aria-label="edit"
-            variant="extended"
-            style={{ margin: 10 }}
-          >
-            <MdEdit size={24}  />
-            Update Status
-          </Fab> */}
         </div>
       </div>
 

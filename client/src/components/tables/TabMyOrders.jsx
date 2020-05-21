@@ -10,11 +10,7 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
-import { FcBadDecision } from "react-icons/fc";
-import { FcApproval } from "react-icons/fc";
-import { FcCancel } from "react-icons/fc";
-import { FcOk } from "react-icons/fc";
-import { FcShipped } from "react-icons/fc";
+import StatusUpdate from "../commons/StatusUpdate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,49 +54,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-const StatusUpdate = ({ status }) => {
-  switch (status) {
-    case 0:
-      return (
-        <>
-          <FcCancel size={20} style={{ padding: 2 }} />
-          Cancelled
-        </>
-      );
-    case 1:
-      return (
-        <>
-          <FcBadDecision size={20} />
-          Placed
-        </>
-      );
-    case 2:
-      return (
-        <>
-          <FcOk size={20} />
-          Accepted
-        </>
-      );
-    case 3:
-      return (
-        <>
-          <FcShipped size={20} />
-          Shipped
-        </>
-      );
-    case 4:
-      return (
-        <>
-          <FcApproval size={20} />
-          Recieved
-        </>
-      );
-
-    default:
-      return <div />;
-  }
-};
 
 const TabMyOrders = ({ web3, account }) => {
   const classes = useStyles();
