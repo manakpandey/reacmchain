@@ -143,6 +143,7 @@ const DealerOrders = ({ web3, account }) => {
 
 DealerOrders.propTypes = {
   web3: PropTypes.object,
+  account: PropTypes.string,
 };
 
 export default DealerOrders;
