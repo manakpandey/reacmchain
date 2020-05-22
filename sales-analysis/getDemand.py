@@ -69,3 +69,10 @@ def return_demand(input_array):
     loaded_model = pickle.load(open(filename, 'rb'))
     return loaded_model.predict(df)
 
+
+# data = input()
+# print(return_demand(
+#     []
+# ))
+
+print(return_demand([1,10]))
