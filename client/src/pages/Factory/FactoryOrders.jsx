@@ -49,6 +49,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 10,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 const FactoryOrders = ({ web3, account }) => {
@@ -119,7 +130,9 @@ const FactoryOrders = ({ web3, account }) => {
         }}
       >
         <Fade in={open}>
+          <div className={classes.paper}>
             <PlaceOrderRaw web3={web3} account={account} />
+          </div>
         </Fade>
       </Modal>
     </>
