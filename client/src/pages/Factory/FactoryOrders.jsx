@@ -95,11 +95,11 @@ const FactoryOrders = ({ web3, account }) => {
           </Tabs>
 
           <TabPanel value={value} index={0}>
-            <TabPending />
+            <TabPending web3={web3} account={account} />
           </TabPanel>
 
           <TabPanel value={value} index={1}>
-            <TabMyOrders />
+            <TabMyOrders web3={web3} account={account} />
           </TabPanel>
         </div>
 
@@ -131,12 +131,17 @@ const FactoryOrders = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <PlaceOrderRaw web3={web3} account={account} />
+            <PlaceOrderRaw web3={web3} account={account} exit={handleClose} />
           </div>
         </Fade>
       </Modal>
     </>
   );
+};
+
+FactoryOrders.propTypes = {
+  web3: PropTypes.object,
+  account: PropTypes.string,
 };
 
 export default FactoryOrders;

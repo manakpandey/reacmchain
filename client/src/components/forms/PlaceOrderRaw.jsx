@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
 import { rawProductAbi } from "../../abi/rawProduct.abi";
 import { mappingAbi } from "../../abi/mapping.abi";
 import { userAbi } from "../../abi/user.abi";
+import { orderAbi } from "../../abi/order.abi";
 
 const PlaceOrderRaw = ({ web3, account, update, exit }) => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,11 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
   const [supplierList, setSupplierList] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [total, setTotal] = useState(0);
+
+  const OrderContract = new web3.eth.Contract(
+    orderAbi,
+    constants.contractAddress.Order
+  );
 
   useEffect(() => {
     const RawProductContract = new web3.eth.Contract(
@@ -86,13 +92,43 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
   }, [selectedProduct, setSupplierList, mapping, suppliers]);
 
   useEffect(() => {
-    const sup = supplierList.filter((s) => s.sid == selectedSupplier)[0];
+    const sup = supplierList.filter((s) => s.sid === selectedSupplier)[0];
     setTotal(sup ? sup.price * qty : 0);
-  }, [qty, selectedSupplier, setTotal]);
+  }, [qty, selectedSupplier, setTotal, supplierList]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log(account);
     e.preventDefault();
-    console.log(selectedProduct + qty + selectedSupplier);
+    try {
+      const gas = await OrderContract.methods
+        .placeOrder(
+          selectedProduct,
+          qty,
+          selectedSupplier,
+          total,
+          1,
+          Date.now()
+        )
+        .estimateGas();
+      const result = await OrderContract.methods
+        .placeOrder(
+          selectedProduct,
+          qty,
+          selectedSupplier,
+          total,
+          1,
+          Date.now()
+        )
+        .send({
+          from: account,
+          gas,
+        });
+      console.log(result);
+      update();
+      exit();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

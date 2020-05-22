@@ -67,7 +67,7 @@ const DealerOrders = ({ web3, account }) => {
       const resultProd = await ProductContract.methods
         .getTotalProducts()
         .call();
-      for (let i = 1; i < resultProd; i++) {
+      for (let i = 1; i <= resultProd; i++) {
         const product = await ProductContract.methods.getProduct(i).call();
         Products.push(product);
       }

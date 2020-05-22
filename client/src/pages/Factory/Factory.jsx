@@ -17,8 +17,8 @@ const Factory = ({ web3, account }) => {
       case 1:
         return (
           <>
-            <Typography variant='h5'>Orders</Typography>
-            <FactoryOrders web3={web3} />
+            <Typography variant="h5">Orders</Typography>
+            <FactoryOrders web3={web3} account={account} />
           </>
         );
       case 2:
@@ -42,13 +42,13 @@ const Factory = ({ web3, account }) => {
             <FactoryDealers web3={web3} account={account} />
           </>
         );
-        case 5:
-          return (
-            <>
-              <Typography variant="h5">Raw Products</Typography>
-              <FactoryRawProducts web3={web3} account={account} />
-            </>
-          );
+      case 5:
+        return (
+          <>
+            <Typography variant="h5">Raw Products</Typography>
+            <FactoryRawProducts web3={web3} account={account} />
+          </>
+        );
       default:
         return (
           <>
