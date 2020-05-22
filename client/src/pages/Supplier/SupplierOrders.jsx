@@ -105,7 +105,7 @@ const SupplierOrders = ({ web3, account }) => {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <StyledTableCell size={24}></StyledTableCell>
+                <StyledTableCell style={{ width: 24 }}></StyledTableCell>
                 <StyledTableCell>Order ID</StyledTableCell>
                 <StyledTableCell align="right">Product</StyledTableCell>
                 <StyledTableCell align="right">Quantity</StyledTableCell>
