@@ -5,31 +5,38 @@ import "./Supplier.css";
 import { Typography } from "@material-ui/core";
 import SupplierOrders from "./SupplierOrders";
 import SupplierProducts from "./SupplierProducts";
+import SRating from "../../components/rating/rating";
 
 const Supplier = ({ web3, account }) => {
   const [activeSection, setActiveSection] = useState(0);
 
   const Content = () => {
     switch (activeSection) {
-      case 1:
-        return (
-          <>
-            <Typography variant="h5">Orders</Typography>
-            <SupplierOrders web3={web3} account={account} />
-          </>
-        );
+      // case 1:
+      //   return (
+      //     <>
+      //       <Typography variant="h5">Orders</Typography>
+      //       <SupplierOrders web3={web3} account={account} />
+      //     </>
+      //   );
+
       case 2:
         return (
           <>
-            <Typography variant="h5">Products</Typography>
-            <SupplierProducts web3={web3} account={account} />
+          <Typography variant="h5">Products</Typography>
+          <SupplierProducts web3={web3} account={account} />
           </>
         );
-
       default:
         return (
           <>
+            <div class = "dashboardtext">
             <Typography variant="h5">Dashboard</Typography>
+            </div>
+            <div class = "ratingdiv">
+              <SRating/>
+            </div>
+            <SupplierOrders web3={web3} account={account} />
           </>
         );
     }
