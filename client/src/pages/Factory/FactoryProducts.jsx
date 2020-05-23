@@ -67,10 +67,6 @@ const StyledTableRow = withStyles((theme) => ({
 
 const FactoryProducts = ({ web3, account }) => {
   const classes = useStyles();
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
-  );
 
   const [products, setProducts] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -94,15 +90,21 @@ const FactoryProducts = ({ web3, account }) => {
   };
 
   const updateProducts = useCallback(async () => {
+    const ProductContract = new web3.eth.Contract(
+      productAbi,
+      constants.contractAddress.Product
+    );
     const Products = [];
     const result = await ProductContract.methods.getTotalProducts().call();
+    console.log(result);
     for (let i = 1; i <= result; i++) {
       const product = await ProductContract.methods.getProduct(i).call();
       product.id = i;
+      product.demand = Math.round(Math.random() * 100 + Math.random() * 1000);
       Products.push(product);
     }
     setProducts(Products);
-  }, [ProductContract, setProducts]);
+  }, [setProducts, web3.eth.Contract]);
 
   useEffect(() => {
     updateProducts();
@@ -123,6 +125,9 @@ const FactoryProducts = ({ web3, account }) => {
                     Price (per unit)
                   </StyledTableCell>
                   <StyledTableCell align="right">In Stock</StyledTableCell>
+                  <StyledTableCell align="right">
+                    Expected Demand
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -146,6 +151,9 @@ const FactoryProducts = ({ web3, account }) => {
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {product[2]}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {product.demand}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}

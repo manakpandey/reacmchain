@@ -5,8 +5,8 @@ import Supplier from "./pages/Supplier/Supplier";
 import Dealer from "./pages/Dealer/Dealer";
 import { constants } from "./config";
 import { userAbi } from "./abi/user.abi";
-import Welcome from "./components/welcomePage/wel";
-import Error from "./components/welcomePage/error";
+import Welcome from "./components/loaders/wel";
+import Error from "./components/loaders/error";
 
 const web3 = new Web3(Web3.givenProvider);
 
