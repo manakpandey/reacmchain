@@ -5,7 +5,6 @@ import PChart from "../../components/piechart/piechart";
 import InventoryTable from "../../components/inventorytable/inventorytable";
 import { Typography } from "@material-ui/core";
 
-
 const FactoryDashboard = () => {
   return (
     <div className="dashboard-container">
