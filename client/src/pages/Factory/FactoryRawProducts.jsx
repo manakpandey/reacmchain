@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import "./factory.css";
+
 import {
   Fab,
   Paper,
@@ -19,8 +20,7 @@ import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
 import { productAbi } from "../../abi/product.abi";
-import AddProduct from "../../components/forms/AddProduct";
-import UpdateProduct from "../../components/forms/UpdateProduct";
+import AddProduct from "../../components/forms/AddRawProduct";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +65,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const FactoryProducts = ({ web3, account }) => {
+const FactoryRawProducts = ({ web3, account }) => {
   const classes = useStyles();
   const ProductContract = new web3.eth.Contract(
     productAbi,
@@ -119,10 +119,7 @@ const FactoryProducts = ({ web3, account }) => {
                   <StyledTableCell style={{ width: 24 }}></StyledTableCell>
                   <StyledTableCell>PID</StyledTableCell>
                   <StyledTableCell align="right">Name</StyledTableCell>
-                  <StyledTableCell align="right">
-                    Price (per unit)
-                  </StyledTableCell>
-                  <StyledTableCell align="right">In Stock</StyledTableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -144,9 +141,7 @@ const FactoryProducts = ({ web3, account }) => {
                     <StyledTableCell align="right">
                       {product[1]}
                     </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[2]}
-                    </StyledTableCell>
+                    
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -163,7 +158,7 @@ const FactoryProducts = ({ web3, account }) => {
             onClick={handleOpen}
           >
             <AiOutlinePlus size={24} className={classes.extendedIcon} />
-            Add Product
+            Add Raw Product
           </Fab>
         </div>
       </div>
@@ -191,37 +186,14 @@ const FactoryProducts = ({ web3, account }) => {
           </div>
         </Fade>
       </Modal>
-      <Modal
-        aria-labelledby="update-price"
-        aria-describedby="update-price-form"
-        className={classes.modal}
-        open={updateOpen}
-        onClose={handleUpdateClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={updateOpen}>
-          <div className={classes.paper}>
-            <UpdateProduct
-              web3={web3}
-              account={account}
-              details={details}
-              exit={handleUpdateClose}
-              update={updateProducts}
-            />
-          </div>
-        </Fade>
-      </Modal>
+      
     </>
   );
 };
 
-FactoryProducts.propTypes = {
+FactoryRawProducts.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
 };
 
-export default FactoryProducts;
+export default FactoryRawProducts;

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-import { userAbi } from "../../abi/abis";
+import { userAbi } from "../../abi/user.abi";
 
-const AddDealer = ({ web3, account }) => {
+const AddUser = ({ web3, account, type, update, exit }) => {
   const UserContract = new web3.eth.Contract(
     userAbi,
     constants.contractAddress.User
   );
+
+  const userTypes = {
+    Supplier: 1,
+    Dealer: 3,
+  };
 
   const [name, setName] = useState("");
   const [phno, setPhno] = useState("");
@@ -15,13 +20,22 @@ const AddDealer = ({ web3, account }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const gas = await UserContract.methods.addUser(address, 3, phno, name).estimateGas();
-    const result = await UserContract.methods.addUser(address, 3, phno, name).send({
-      from: account,
-      gas,
-    });
-    console.log(result);
-    window.location.reload();
+    try {
+      const gas = await UserContract.methods
+        .addUser(address, userTypes[type], phno, name)
+        .estimateGas();
+      const result = await UserContract.methods
+        .addUser(address, userTypes[type], phno, name)
+        .send({
+          from: account,
+          gas,
+        });
+      console.log(result);
+      update();
+      exit();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -32,7 +46,7 @@ const AddDealer = ({ web3, account }) => {
           name="name"
           onChange={(t) => setName(t.target.value)}
           className="form-control"
-          placeholder="Dealer Name"
+          placeholder={`${type} Name`}
         />
       </div>
       <div className="form-group">
@@ -41,7 +55,7 @@ const AddDealer = ({ web3, account }) => {
           name="phone"
           onChange={(t) => setPhno(t.target.value)}
           className="form-control"
-          placeholder="Dealer Phone Number" 
+          placeholder={`${type} Phone Number`}
         />
       </div>
       <div className="form-group">
@@ -53,15 +67,18 @@ const AddDealer = ({ web3, account }) => {
         />
       </div>
       <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
-        Add Dealer
+        {`Add ${type}`}
       </button>
     </div>
   );
 };
 
-AddDealer.propTypes = {
+AddUser.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
+  type: PropTypes.string,
+  update: PropTypes.func,
+  exit: PropTypes.func,
 };
 
-export default AddDealer;
+export default AddUser;

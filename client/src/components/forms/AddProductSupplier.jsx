@@ -38,15 +38,7 @@ const AddProduct = ({ web3, account, update, exit }) => {
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="form-group">
-          <input
-            type="text"
-            name="name"
-            onChange={(t) => setName(t.target.value)}
-            className="form-control"
-            placeholder="Product Name"
-          />
-        </div>
+        
         <div className="form-group">
           <input
             name="price"
@@ -64,7 +56,7 @@ const AddProduct = ({ web3, account, update, exit }) => {
     <label class="input-group-text" for="inputGroupSelect01">Options</label>
   </div>
   <select class="custom-select" id="inputGroupSelect01" multiple>
-    <option selected>Choose...</option>
+    {/* <option selected>Choose Raw Products</option> */}
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>

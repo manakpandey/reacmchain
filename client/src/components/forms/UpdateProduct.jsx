@@ -1,92 +1,88 @@
-import React from "react";
-import './App.css';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { constants } from "../../config";
+import { productAbi } from "../../abi/product.abi";
 
-class ContactForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pid: "",
-      name: "",
-     };
+const UpdateProduct = ({ web3, account, details, update, exit }) => {
+  const ProductContract = new web3.eth.Contract(
+    productAbi,
+    constants.contractAddress.Product
+  );
 
-    this.handleChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const [price, setPrice] = useState(details[1]);
+  const [qty, setQty] = useState(details[2]);
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const pid = target.pid;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const gas = await ProductContract.methods
+        .updateProduct(details.id, price, qty)
+        .estimateGas();
+      const result = await ProductContract.methods
+        .updateProduct(details.id, price, qty)
+        .send({
+          from: account,
+          gas,
+        });
+      console.log(result);
+      update();
+      exit();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    this.setState({
-      [pid]: value
-    });
-    console.log("Change detected. updated" + pid + " = " + value);
-  }
-
-  handleSubmit(event) {
-    alert(
-      "Product is updated: " +
-        this.state.name + this.state.pid
-    );
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-           
-          <div className="form-group">
-            <input
-              type="int"
-              name="pid"
-              value={this.state.pid}
-              onChange={this.handleChange}
-              className="form-control"
-              id="pidInput"
-              placeholder="Product ID"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              name="name"
-              type="text"
-              value={this.state.name}
-              onChange={this.handleChange}
-              className="form-control"
-              id="productName"
-              placeholder="Product Name"
-            />
-          </div>
-
-          <input
-            type="submit"
-            value="Update Product"
-            className="btn btn-primary"
-          />
-        </form>
+  return (
+    <div>
+      <div className="form-group">
+        <input
+          name="pid"
+          value={details.id}
+          className="form-control"
+          placeholder="PID"
+          readOnly
+        />
       </div>
-    );
-  }
-}
-
-class MainTitle extends React.Component {
-  render() {
-    return <h1>Update Product</h1>;
-  }
-}
-
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <MainTitle />
-        <ContactForm />
+      <div className="form-group">
+        <input
+          name="name"
+          value={details[0]}
+          className="form-control"
+          placeholder="Name"
+          readOnly
+        />
       </div>
-    );
-  }
-}
+      <div className="form-group">
+        <input
+          name="price"
+          value={price}
+          onChange={t=>setPrice(t.target.value)}
+          className="form-control"
+          placeholder="Price"
+        />
+      </div>
+      <div className="form-group">
+        <input
+          name="quantity"
+          value={qty}
+          onChange={t=>setQty(t.target.value)}
+          className="form-control"
+          placeholder="In Stock"
+        />
+      </div>
+      <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+        Update
+      </button>
+    </div>
+  );
+};
 
-export default App;
+UpdateProduct.propTypes = {
+  web3: PropTypes.object,
+  account: PropTypes.string,
+  update: PropTypes.func,
+  exit: PropTypes.func,
+  details: PropTypes.object,
+};
+
+export default UpdateProduct;

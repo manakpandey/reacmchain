@@ -1,59 +1,62 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "../../components/sidebar/Sidebar";
-import AppBar from "../../components/header/Header";
 import "./factory.css";
-import PlaceOrder from "../../components/forms/PlaceOrder";
+import FactoryRawProducts from "./FactoryRawProducts";
 import FactoryDealers from "./FactoryDealers";
 import FactorySuppliers from "./FactorySuppliers";
 import FactoryProducts from "./FactoryProducts";
-import FactoryDashboard from "./FactoryDashboard"
-
+import FactoryOrders from "./FactoryOrders";
 import { Typography } from "@material-ui/core";
+import FactoryDashboard from "./FactoryDashboard";
 
 const Factory = ({ web3, account }) => {
-  const [activeSection, setActiveSection] = useState(4);
+  const [activeSection, setActiveSection] = useState(0);
 
   const Content = () => {
     switch (activeSection) {
-      case 0:
-        return (
-          <>
-            <Typography variant='h5'>Dashboard</Typography>
-            <FactoryDashboard/>
-          </>
-        );
       case 1:
         return (
           <>
             <Typography variant='h5'>Orders</Typography>
-            <PlaceOrder web3={web3} />
+            <FactoryOrders web3={web3} />
           </>
         );
       case 2:
         return (
           <>
-            <Typography variant='h5'>Products</Typography>
+            <Typography variant="h5">Products</Typography>
             <FactoryProducts web3={web3} account={account} />
           </>
         );
       case 3:
         return (
           <>
-            <Typography variant='h5'>Dealers</Typography>
+            <Typography variant="h5">Suppliers</Typography>
             <FactorySuppliers web3={web3} account={account} />
           </>
         );
       case 4:
         return (
           <>
-            <Typography variant='h5'>Dealers</Typography>
+            <Typography variant="h5">Dealers</Typography>
             <FactoryDealers web3={web3} account={account} />
           </>
         );
-
+        case 5:
+          return (
+            <>
+              <Typography variant="h5">Raw Products</Typography>
+              <FactoryRawProducts web3={web3} account={account} />
+            </>
+          );
       default:
-        return <div />;
+        return (
+          <>
+            <Typography variant="h5">Dashboard</Typography>
+            <FactoryDashboard/>
+          </>
+        );
     }
   };
 

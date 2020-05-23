@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./factory.css";
+import "./Supplier.css";
 import {
   Fab,
   Paper,
@@ -17,10 +17,7 @@ import {
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { constants } from "../../config";
-import { productAbi } from "../../abi/product.abi";
-import AddProduct from "../../components/forms/AddProduct";
-import UpdateProduct from "../../components/forms/UpdateProduct";
+import AddProduct from "../../components/forms/AddProductSupplier";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,17 +62,32 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const FactoryProducts = ({ web3, account }) => {
+const SupplierProducts = ({ web3, account }) => {
   const classes = useStyles();
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
-  );
 
   const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // const UserContract = new web3.eth.Contract(
+    //   userAbi,
+    //   constants.contractAddress.User
+    // );
+    // -------Change This-----------
+    // async function getDealers() {
+    //   const Dealers = [];
+    //   const result = await UserContract.methods.getTotalUsers().call();
+    //   for (let i = 0; i < result; i++) {
+    //     const user = await UserContract.methods.getUserByIndex(i).call();
+    //     if (user[1] === "3") {
+    //       Dealers.push(user);
+    //     }
+    //   }
+    //   setDealers(Dealers);
+    // }
+    // getDealers();
+  }, [setProducts]);
+
   const [open, setOpen] = React.useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
-  const [details, setDetails] = useState({});
 
   const handleOpen = () => {
     setOpen(true);
@@ -85,29 +97,6 @@ const FactoryProducts = ({ web3, account }) => {
     setOpen(false);
   };
 
-  const handleUpdateOpen = () => {
-    setUpdateOpen(true);
-  };
-
-  const handleUpdateClose = () => {
-    setUpdateOpen(false);
-  };
-
-  const updateProducts = useCallback(async () => {
-    const Products = [];
-    const result = await ProductContract.methods.getTotalProducts().call();
-    for (let i = 1; i <= result; i++) {
-      const product = await ProductContract.methods.getProduct(i).call();
-      product.id = i;
-      Products.push(product);
-    }
-    setProducts(Products);
-  }, [ProductContract, setProducts]);
-
-  useEffect(() => {
-    updateProducts();
-  }, [updateProducts]);
-
   return (
     <>
       <div className="container-factory-content">
@@ -116,37 +105,19 @@ const FactoryProducts = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell style={{ width: 24 }}></StyledTableCell>
                   <StyledTableCell>PID</StyledTableCell>
                   <StyledTableCell align="right">Name</StyledTableCell>
                   <StyledTableCell align="right">
                     Price (per unit)
                   </StyledTableCell>
-                  <StyledTableCell align="right">In Stock</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {products.map((product) => (
-                  <StyledTableRow key={product.id}>
-                    <StyledTableCell>
-                      <MdEdit
-                        size={20}
-                        onClick={() => {
-                          setDetails(product);
-                          handleUpdateOpen();
-                        }}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell>{product.id}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[0]}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[1]}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[2]}
-                    </StyledTableCell>
+                {products.map((dealer) => (
+                  <StyledTableRow key={dealer[3]}>
+                    <StyledTableCell>{dealer[0]}</StyledTableCell>
+                    <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
+                    <StyledTableCell align="right">{dealer[3]}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -165,6 +136,15 @@ const FactoryProducts = ({ web3, account }) => {
             <AiOutlinePlus size={24} className={classes.extendedIcon} />
             Add Product
           </Fab>
+          <Fab
+            color="secondary"
+            aria-label="edit"
+            variant="extended"
+            style={{ margin: 10 }}
+          >
+            <MdEdit size={24} className={classes.extendedIcon} />
+            Edit Product
+          </Fab>
         </div>
       </div>
 
@@ -182,36 +162,8 @@ const FactoryProducts = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <AddProduct
-              web3={web3}
-              account={account}
-              exit={handleClose}
-              update={updateProducts}
-            />
-          </div>
-        </Fade>
-      </Modal>
-      <Modal
-        aria-labelledby="update-price"
-        aria-describedby="update-price-form"
-        className={classes.modal}
-        open={updateOpen}
-        onClose={handleUpdateClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={updateOpen}>
-          <div className={classes.paper}>
-            <UpdateProduct
-              web3={web3}
-              account={account}
-              details={details}
-              exit={handleUpdateClose}
-              update={updateProducts}
-            />
+           
+            <AddProduct web3={web3} account={account} />
           </div>
         </Fade>
       </Modal>
@@ -219,9 +171,9 @@ const FactoryProducts = ({ web3, account }) => {
   );
 };
 
-FactoryProducts.propTypes = {
+SupplierProducts.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
 };
 
-export default FactoryProducts;
+export default SupplierProducts;

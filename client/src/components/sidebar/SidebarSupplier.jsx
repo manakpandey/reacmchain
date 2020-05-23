@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import "./sidebar.css";
 import {
   AiOutlineHome,
-  AiOutlineShopping,
-  AiOutlineShop,
   AiOutlineBook,
   AiOutlineUser,
 } from "react-icons/ai";
@@ -52,24 +50,6 @@ const Sidebar = ({ nav }) => {
             navigate={nav}
             to={2}
           />
-          <SidebarItem
-            icon={<AiOutlineShopping size={24} />}
-            text={"suppliers"}
-            navigate={nav}
-            to={3}
-          />
-          <SidebarItem
-            icon={<AiOutlineShop size={24} />}
-            text={"dealers"}
-            navigate={nav}
-            to={4}
-          />
-          <SidebarItem
-            icon={<AiOutlineShop size={24} />}
-            text={"Raw Products"}
-            navigate={nav}
-            to={5}
-          />
           
         </div>
       </div>
@@ -82,7 +62,7 @@ const Sidebar = ({ nav }) => {
           variant="subtitle1"
           style={{ paddingLeft: 20, paddingTop: 5, color: "#ffffff" }}
         >
-          Factory
+          Supplier
         </Typography>
       </div>
     </div>
