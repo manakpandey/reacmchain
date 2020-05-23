@@ -100,7 +100,13 @@ const SupplierOrders = ({ web3, account }) => {
 
   return (
     <>
-      <div style={{ margin: 30, marginBottom: 100 }}>
+      <div
+        style={{
+          margin: 30,
+          overflow: "auto",
+          maxHeight: "75vh",
+        }}
+      >
         <TableContainer component={Paper}>
           <Table className={classes.table}>
             <TableHead>

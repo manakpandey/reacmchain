@@ -135,7 +135,13 @@ const TabMyOrders = ({ web3, account }) => {
 
   return (
     <div className="container-factory-content">
-      <div style={{ margin: 30, marginBottom: 100 }}>
+      <div
+        style={{
+          margin: 30,
+          overflow: "auto",
+          maxHeight: "65vh",
+        }}
+      >
         <TableContainer component={Paper}>
           <Table className={classes.table}>
             <TableHead>
