@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,8 +9,11 @@ import {
   TableContainer,
   TableBody,
   Paper,
+  Modal,
+  Backdrop,
+  Fade,
 } from "@material-ui/core";
-import "./Supplier.css";
+import UpdateOrder from "../../components/forms/UpdateOrder";
 import StatusUpdate from "../../components/commons/StatusUpdate";
 import { orderAbi } from "../../abi/order.abi";
 import { constants } from "../../config";
@@ -44,6 +47,17 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 10,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 const SupplierOrders = ({ web3, account }) => {
@@ -51,6 +65,16 @@ const SupplierOrders = ({ web3, account }) => {
 
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [details, setDetails] = useState({});
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   function epochToTime(e) {
     const d = new Date(0);
@@ -77,7 +101,7 @@ const SupplierOrders = ({ web3, account }) => {
     getData();
   }, [setProducts, web3.eth.Contract]);
 
-  useEffect(() => {
+  const updateOrders = useCallback(() => {
     const OrderContract = new web3.eth.Contract(
       orderAbi,
       constants.contractAddress.Order
@@ -97,6 +121,10 @@ const SupplierOrders = ({ web3, account }) => {
     }
     getData();
   }, [setOrders, account, products, web3.eth.Contract]);
+
+  useEffect(() => {
+    updateOrders();
+  }, [updateOrders]);
 
   return (
     <>
@@ -129,7 +157,13 @@ const SupplierOrders = ({ web3, account }) => {
               {orders.map((order) => (
                 <StyledTableRow key={order.id}>
                   <StyledTableCell>
-                    <MdEdit size={20} />
+                    <MdEdit
+                      size={20}
+                      onClick={() => {
+                        setDetails(order);
+                        handleOpen();
+                      }}
+                    />
                   </StyledTableCell>
                   <StyledTableCell>{order.id}</StyledTableCell>
                   <StyledTableCell align="right">
@@ -151,6 +185,31 @@ const SupplierOrders = ({ web3, account }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Modal
+          aria-labelledby="place-order"
+          aria-describedby="place-order-form"
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <div className={classes.paper}>
+              <UpdateOrder
+                web3={web3}
+                account={account}
+                oid={details.id}
+                initStatus={Number(details[6])}
+                exit={handleClose}
+                update={updateOrders}
+              />
+            </div>
+          </Fade>
+        </Modal>
       </div>
     </>
   );

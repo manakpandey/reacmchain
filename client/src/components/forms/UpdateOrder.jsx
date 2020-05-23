@@ -1,193 +1,65 @@
-import React, { useState} from "react";
-import './Form.css';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { constants } from "../../config";
+import { orderAbi } from "../../abi/order.abi";
 
-const UpdateOrder = () => {
-    const [pname, setPname]= useState("");
-    const [qty, setQty]= useState("");
+const UpdateOrder = ({ web3, account, oid, initStatus, update, exit }) => {
+  const OrderContract = new web3.eth.Contract(
+    orderAbi,
+    constants.contractAddress.Order
+  );
 
-    const [orderNumber, setOrderNumber] = useState("");
+  const [status, setStatus] = useState(initStatus < 2 ? 2 : initStatus);
 
-    const handleSubmit =(e) =>{
-      e.preventDefault();
-      alert('Order updated');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const timestamp = Date.now();
+      const gas = await OrderContract.methods
+        .updateStatus(oid, status, timestamp)
+        .estimateGas();
+      const result = await OrderContract.methods
+        .updateStatus(oid, status, timestamp)
+        .send({
+          from: account,
+          gas,
+        });
+      console.log(result);
+      update();
+      exit();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    };
-
-    return(
-      <div>
-        <div className="form-group">
-          <input type="int" name= "orderNumber" onChange={t=>setOrderNumber(t.target.value)} 
-          className="form-control" id="orderNumberInput" placeholder="Order Number"/>
-        </div>
-        <div className="form-group">
-          <input type="string" name= "pname" onChange={t=>setPname(t.target.value)} 
-          className="form-control" id="pnameInput" placeholder="Product Name"/>
-        </div>
-        <div className="form-group">
-          <input type="int" name= "qty" onChange={t=>setQty(t.target.value)} 
-          className="form-control" id="qtyInput" placeholder="Quantity"/>
-        </div>
-
-        
-
-        <input
-          value="Update Order"
-          className="btn btn-primary"
-          onClick={(e) => handleSubmit(e)}
-        />
-    
+  return (
+    <div>
+      <div className="form-group">
+        <select
+          className="form-control"
+          onChange={(t) => setStatus(t.target.value)}
+        >
+          <option value={2}>Accept Order</option>
+          <option value={3}>Mark as Shipped</option>
+          <option value={4}>Mark as Complete</option>
+          <option value={0}>Cancel Order</option>
+        </select>
       </div>
-    );
+
+      <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+        Update Status
+      </button>
+    </div>
+  );
+};
+
+UpdateOrder.propTypes = {
+  web3: PropTypes.object,
+  account: PropTypes.string,
+  oid: PropTypes.string,
+  initStatus: PropTypes.string,
+  update: PropTypes.func,
+  exit: PropTypes.func,
 };
 
 export default UpdateOrder;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//class based
-
-// import React from "react";
-// import './App.css';
-
-// class ContactForm extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       orderNumber: "",
-//       pid: "",
-//       qty: "",
-//      };
-
-//     this.handleChange = this.handleInputChange.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
-//   handleInputChange(event) {
-//     const target = event.target;
-//     const value = target.type === "checkbox" ? target.checked : target.value;
-//     const pid = target.pid;
-
-//     this.setState({
-//       [pid]: value
-//     });
-//     console.log("Change detected. updated" + pid + " = " + value);
-//   }
-
-//   handleSubmit(event) {
-//     alert(
-//       "Order is updated: " +
-//         this.state.orderNumber
-//     );
-//     event.preventDefault();
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <form onSubmit={this.handleSubmit}>
-//         <div className="form-group">
-//             {/* <label for="nameInput">Name</label> */}
-//             <input
-//               type="int"
-//               name="orderNumber"
-//               value={this.state.orderNumber}
-//               onChange={this.handleChange}
-//               className="form-control"
-//               id="orderNumberInput"
-//               placeholder="Order Number"
-//             />
-//           </div>
-//           <div className="form-group">
-//             {/* <label for="nameInput">Name</label> */}
-//             <input
-//               type="int"
-//               name="pid"
-//               value={this.state.pid}
-//               onChange={this.handleChange}
-//               className="form-control"
-//               id="pidInput"
-//               placeholder="Product ID"
-//             />
-//           </div>
-//           <div className="form-group">
-//             {/* <label for="emailInput">Name</label> */}
-//             <input
-//               name="qty"
-//               type="qty"
-//               value={this.state.qty}
-//               onChange={this.handleChange}
-//               className="form-control"
-//               id="qtyImput"
-//               placeholder="Quantity"
-//             />
-//           </div>
-
-//           <input
-//             type="submit"
-//             value="Update Order"
-//             className="btn btn-primary"
-//           />
-//         </form>
-//       </div>
-//     );
-//   }
-// }
-
-// class MainTitle extends React.Component {
-//   render() {
-//     return <h1>Update] Order</h1>;
-//   }
-// }
-
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <div>
-//         <MainTitle />
-//         <ContactForm />
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
