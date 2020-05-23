@@ -85,7 +85,6 @@ const TabMyOrders = ({ web3, account }) => {
         Products.push(product);
       }
       setProducts(Products);
-      console.log(Products);
       const Suppliers = {};
       const resultSup = await UserContract.methods.getTotalUsers().call();
       for (let i = 0; i < resultSup; i++) {
@@ -93,7 +92,6 @@ const TabMyOrders = ({ web3, account }) => {
         if (user[1] === "1") Suppliers[user[3]] = user[0];
       }
       setSuppliers(Suppliers);
-      console.log(Suppliers);
     }
     getData();
   }, [web3.eth.Contract, setProducts, setSuppliers]);
@@ -113,7 +111,6 @@ const TabMyOrders = ({ web3, account }) => {
       const resultOrd = await OrderContract.methods.getTotalOrders().call();
       for (let i = 1; i <= resultOrd; i++) {
         const order = await OrderContract.methods.getOrder(i).call();
-        console.log(order);
         if (order[7] === "1") {
           Orders.push({
             oid: i,
@@ -128,7 +125,6 @@ const TabMyOrders = ({ web3, account }) => {
         }
       }
       setOrders(Orders);
-      console.log(Orders);
     }
     getOrders();
   }, [web3.eth.Contract, setOrders, products, suppliers]);

@@ -6,7 +6,7 @@ import { mappingAbi } from "../../abi/mapping.abi";
 import { userAbi } from "../../abi/user.abi";
 import { orderAbi } from "../../abi/order.abi";
 
-const PlaceOrderRaw = ({ web3, account, update, exit }) => {
+const PlaceOrderRaw = ({ web3, account, exit }) => {
   const [products, setProducts] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [mapping, setMapping] = useState([]);
@@ -124,7 +124,6 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
           gas,
         });
       console.log(result);
-      update();
       exit();
     } catch (e) {
       console.log(e);
@@ -183,7 +182,6 @@ const PlaceOrderRaw = ({ web3, account, update, exit }) => {
 PlaceOrderRaw.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
-  update: PropTypes.func,
   exit: PropTypes.func,
 };
 

@@ -11,8 +11,6 @@ import {
   Paper,
 } from "@material-ui/core";
 import "./Supplier.css";
-import TabPending from "../../components/tables/TabPending";
-import SRating from "../../components/rating/rating"
 import StatusUpdate from "../../components/commons/StatusUpdate";
 import { orderAbi } from "../../abi/order.abi";
 import { constants } from "../../config";

@@ -1,9 +1,9 @@
 export const constants = {
   contractAddress: {
-    User: "0x1196B728BCE66A26F509A7d93C504a767aa6c4c6",
-    Product: "0xC612FaCE9A4346FE52013b6A14b0a4d2b84fB686",
-    RawProduct: "0x809ece7F27bfC93DAF86a9e991d473eC966f75d9",
-    Mapping: "0x3a710E17b509cA45FdD80122d6d5FC38484C259f",
-    // add others here
+    User: "0x6a7D5a51425EB7e9c3434A121Be0B9f477BE2F0f",
+    Product: "0x553d73B403F5D85279a3ec2a095364e554829d05",
+    RawProduct: "0xDCFe32682Fc80B4eD32e0DBcE31c363ef3B7d001",
+    Mapping: "0x1f94080151bb8BcA0Af9193A54b852e635dd6D29",
+    Order: "0x0C2EF41D77D4979a8E2985268098c052F971988c",
   },
 };
