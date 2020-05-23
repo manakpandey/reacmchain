@@ -126,7 +126,7 @@ const TabMyOrders = ({ web3, account }) => {
       const resultOrd = await OrderContract.methods.getTotalOrders().call();
       for (let i = 1; i <= resultOrd; i++) {
         const order = await OrderContract.methods.getOrder(i).call();
-        if (order[7] === "1") {
+        if (order[7] === "1" && order[2].toLowerCase() === account) {
           Orders.push({
             oid: i,
             supplier: suppliers[order[3]],
