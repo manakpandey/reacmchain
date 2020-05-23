@@ -13,7 +13,6 @@ import {
 import StatusUpdate from "../commons/StatusUpdate";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/user.abi";
-import { productAbi } from "../../abi/product.abi";
 import { orderAbi } from "../../abi/order.abi";
 import { rawProductAbi } from "../../abi/rawProduct.abi";
 

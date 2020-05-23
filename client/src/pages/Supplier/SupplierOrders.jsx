@@ -55,20 +55,20 @@ const SupplierOrders = ({ web3, account }) => {
   function epochToTime(e) {
     const d = new Date(0);
     d.setUTCMilliseconds(e);
-    return d;
+    return String(d);
   }
 
   useEffect(() => {
     const RawProductContract = new web3.eth.Contract(
       rawProductAbi,
-      constants.contractAddress.Product
+      constants.contractAddress.RawProduct
     );
     async function getData() {
       const Products = [];
       const resultProd = await RawProductContract.methods
         .getTotalProducts()
         .call();
-      for (let i = 1; i < resultProd; i++) {
+      for (let i = 1; i <= resultProd; i++) {
         const product = await RawProductContract.methods.getProduct(i).call();
         Products.push(product);
       }
@@ -85,9 +85,9 @@ const SupplierOrders = ({ web3, account }) => {
     async function getData() {
       const Orders = [];
       const result = await OrderContract.methods.getTotalOrders().call();
-      for (let i = 1; i < result; i++) {
-        const order = await OrderContract.methods.getUser(i).call();
-        if (order[2] === account) {
+      for (let i = 1; i <= result; i++) {
+        const order = await OrderContract.methods.getOrder(i).call();
+        if (order[3].toLowerCase() === account) {
           order.id = i;
           order.product = products[order[0] - 1];
           Orders.push(order);
@@ -111,8 +111,12 @@ const SupplierOrders = ({ web3, account }) => {
                 <StyledTableCell align="right">Quantity</StyledTableCell>
                 <StyledTableCell align="right">Amount</StyledTableCell>
                 <StyledTableCell align="right">Status</StyledTableCell>
-                <StyledTableCell align="right">Created At</StyledTableCell>
-                <StyledTableCell align="right">Updated At</StyledTableCell>
+                <StyledTableCell align="right" style={{ width: 100 }}>
+                  Created At
+                </StyledTableCell>
+                <StyledTableCell align="right" style={{ width: 100 }}>
+                  Updated At
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -128,7 +132,7 @@ const SupplierOrders = ({ web3, account }) => {
                   <StyledTableCell align="right">{order[1]}</StyledTableCell>
                   <StyledTableCell align="right">{order[5]}</StyledTableCell>
                   <StyledTableCell align="right">
-                    <StatusUpdate status={order[6]} />
+                    <StatusUpdate status={Number(order[6])} />
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {epochToTime(order[8])}
