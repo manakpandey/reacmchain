@@ -5,6 +5,8 @@ import Supplier from "./pages/Supplier/Supplier";
 import Dealer from "./pages/Dealer/Dealer";
 import { constants } from "./config";
 import { userAbi } from "./abi/user.abi";
+import Welcome from "./components/welcomePage/wel";
+import Error from "./components/welcomePage/error";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -58,10 +60,10 @@ function App() {
       case "3":
         return <Dealer web3={web3} account={account} />;
       default:
-        return <div />;
+        return <Error />;
     }
   };
-  return <>{isLoading ? <div /> : <Home />}</>;
+  return <>{isLoading ? <Welcome /> : <Home />}</>;
 }
 
 export default App;
