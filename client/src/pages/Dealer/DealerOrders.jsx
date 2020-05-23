@@ -54,7 +54,7 @@ const DealerOrders = ({ web3, account }) => {
   function epochToTime(e) {
     const d = new Date(0);
     d.setUTCMilliseconds(e);
-    return d;
+    return String(d);
   }
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const DealerOrders = ({ web3, account }) => {
       const resultProd = await ProductContract.methods
         .getTotalProducts()
         .call();
-      for (let i = 1; i < resultProd; i++) {
+      for (let i = 1; i <= resultProd; i++) {
         const product = await ProductContract.methods.getProduct(i).call();
         Products.push(product);
       }
@@ -85,11 +85,18 @@ const DealerOrders = ({ web3, account }) => {
       const Orders = [];
       const result = await OrderContract.methods.getTotalOrders().call();
       for (let i = 1; i < result; i++) {
-        const order = await OrderContract.methods.getUser(i).call();
-        if (order[2] === account) {
-          order.id = i;
-          order.product = products[order[0] - 1];
-          Orders.push(order);
+        const order = await OrderContract.methods.getOrder(i).call();
+        console.log(order);
+        if (order[2].toLowerCase() === account && order[7] === "2") {
+          Orders.push({
+            oid: i,
+            createdAt: order[8],
+            updatedAt: order[9],
+            pname: products[order[0] - 1] ? products[order[0] - 1][0] : "",
+            quantity: order[1],
+            amount: order[5],
+            status: Number(order[6]),
+          });
         }
       }
       setOrders(Orders);
@@ -115,21 +122,23 @@ const DealerOrders = ({ web3, account }) => {
             </TableHead>
             <TableBody>
               {orders.map((order) => (
-                <StyledTableRow key={order.id}>
-                  <StyledTableCell>{order.id}</StyledTableCell>
+                <StyledTableRow key={order.oid}>
+                  <StyledTableCell>{order.oid}</StyledTableCell>
+                  <StyledTableCell align="right">{order.pname}</StyledTableCell>
                   <StyledTableCell align="right">
-                    {order.product}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{order[1]}</StyledTableCell>
-                  <StyledTableCell align="right">{order[5]}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    <StatusUpdate status={order[6]} />
+                    {order.quantity}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {epochToTime(order[8])}
+                    {order.amount}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {epochToTime(order[9])}
+                    <StatusUpdate status={order.status} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {epochToTime(order.createdAt)}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {epochToTime(order.updatedAt)}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

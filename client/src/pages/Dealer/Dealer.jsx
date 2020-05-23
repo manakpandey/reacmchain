@@ -23,7 +23,7 @@ const Dealer = ({ web3, account }) => {
         return (
           <>
             <Typography variant="h5">Dashboard</Typography>
-            <DealerOrders web3={web3} />
+            <DealerOrders web3={web3} account={account} />
           </>
         );
     }

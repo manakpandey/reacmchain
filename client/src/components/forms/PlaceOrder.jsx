@@ -15,8 +15,9 @@ const PlaceOrder = ({ web3, account }) => {
   );
 
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState(1);
   const [qty, setQty] = useState("");
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     async function getProducts() {
@@ -32,28 +33,46 @@ const PlaceOrder = ({ web3, account }) => {
     getProducts();
   }, [setProducts, ProductContract]);
 
+  useEffect(() => {
+    setTotal(
+      products[selectedProduct - 1] ? products[selectedProduct - 1][1] * qty : 0
+    );
+  }, [products, selectedProduct, qty]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(selectedProduct);
     try {
       const timestamp = Date.now();
-      const amt = products[selectedProduct - 1][1] * qty;
-      console.log(amt);
       const gas = await OrderContract.methods
-        .placeOrder(selectedProduct, qty, "0x01", amt, 2, timestamp)
+        .placeOrder(
+          selectedProduct,
+          qty,
+          "0x0000000000000000000000000000000000000001",
+          total,
+          2,
+          timestamp
+        )
         .estimateGas();
       const result = await OrderContract.methods
-        .placeOrder(selectedProduct, qty, "0x01", amt, 2, timestamp)
+        .placeOrder(
+          selectedProduct,
+          qty,
+          "0x0000000000000000000000000000000000000001",
+          total,
+          2,
+          timestamp
+        )
         .send({
           from: account,
           gas,
         });
       console.log(result);
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
   };
-
   return (
     <div>
       <div className="form-group">
@@ -61,7 +80,9 @@ const PlaceOrder = ({ web3, account }) => {
           className="form-control"
           onChange={(t) => setSelectedProduct(t.target.value)}
         >
-          <option aria-label="None" value="" />
+          <option aria-label="None" value="">
+            Select Product
+          </option>
           {products.map((product) => (
             <option key={product.id} value={product.id}>
               {`${product[0]} (${product[1]})`}
@@ -77,6 +98,10 @@ const PlaceOrder = ({ web3, account }) => {
           className="form-control"
           placeholder={`Quantity`}
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="total">Total</label>
+        <div>{total}</div>
       </div>
       <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
         Place Order

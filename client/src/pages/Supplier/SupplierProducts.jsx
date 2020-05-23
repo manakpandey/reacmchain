@@ -83,13 +83,13 @@ const SupplierProducts = ({ web3, account }) => {
       const mapping = await MappingContract.methods.getSRPMapping(i).call();
       if (mapping[0].toLowerCase() === account) {
         Products.push({
-          ...products[mapping[1]],
+          ...products[mapping[1]-1],
           price: mapping[2],
         });
       }
     }
     setMyProducts(Products);
-  }, [setMyProducts, account, products]);
+  }, [setMyProducts, account, products, MappingContract.methods]);
 
   useEffect(() => {
     const RawProductContract = new web3.eth.Contract(

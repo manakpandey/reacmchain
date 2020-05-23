@@ -38,12 +38,12 @@ const Sidebar = ({ nav }) => {
             navigate={nav}
             to={0}
           />
-          <SidebarItem
+          {/* <SidebarItem
             icon={<AiOutlineBook size={24} />}
             text={"orders"}
             navigate={nav}
             to={1}
-          />
+          /> */}
           <SidebarItem
             icon={<BsFileBreak size={24} />}
             text={"products"}

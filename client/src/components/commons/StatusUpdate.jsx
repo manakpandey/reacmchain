@@ -42,7 +42,7 @@ const StatusUpdate = ({ status }) => {
       return (
         <>
           <FcApproval size={20} />
-          Recieved
+          Completed
         </>
       );
 

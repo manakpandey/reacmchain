@@ -23,3 +23,12 @@
   width: 100%;
   height: 100%;
 }
+
+.dashboardtext{
+  display:inline-block;
+  margin-right:10px;
+}
+
+.ratingdiv{
+  float: right;
+}
