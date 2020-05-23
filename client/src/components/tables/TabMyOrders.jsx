@@ -9,12 +9,17 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Modal,
+  Backdrop,
+  Fade,
 } from "@material-ui/core";
 import StatusUpdate from "../commons/StatusUpdate";
 import { constants } from "../../config";
 import { userAbi } from "../../abi/user.abi";
 import { orderAbi } from "../../abi/order.abi";
 import { rawProductAbi } from "../../abi/rawProduct.abi";
+import { MdFeedback } from "react-icons/md";
+import FeedbackOrder from "../forms/FeedbackOrder";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +70,16 @@ const TabMyOrders = ({ web3, account }) => {
   const [products, setProducts] = useState({});
   const [suppliers, setSuppliers] = useState({});
   const [orders, setOrders] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [oid, setOid] = useState({});
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const RawProductContract = new web3.eth.Contract(
@@ -154,6 +169,7 @@ const TabMyOrders = ({ web3, account }) => {
                 <StyledTableCell align="right" style={{ width: 80 }}>
                   Updated At
                 </StyledTableCell>
+                <StyledTableCell style={{ width: 24 }}></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -179,12 +195,48 @@ const TabMyOrders = ({ web3, account }) => {
                   <StyledTableCell align="right">
                     {order.updatedAt}
                   </StyledTableCell>
+                  <StyledTableCell>
+                    {order.status === 4 ? (
+                      <MdFeedback
+                        size={20}
+                        onClick={() => {
+                          setOid(order.oid);
+                          handleOpen();
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
+      <Modal
+        aria-labelledby="place-order"
+        aria-describedby="place-order-form"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <FeedbackOrder
+              web3={web3}
+              account={account}
+              oid={oid}
+              exit={handleClose}
+            />
+          </div>
+        </Fade>
+      </Modal>
     </div>
   );
 };

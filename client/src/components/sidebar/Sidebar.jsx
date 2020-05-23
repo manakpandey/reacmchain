@@ -7,6 +7,7 @@ import {
   AiOutlineShop,
   AiOutlineBook,
   AiOutlineUser,
+  AiOutlineBuild,
 } from "react-icons/ai";
 import { BsFileBreak } from "react-icons/bs";
 import { Avatar, Typography } from "@material-ui/core";
@@ -47,6 +48,12 @@ const Sidebar = ({ nav }) => {
             to={1}
           />
           <SidebarItem
+            icon={<AiOutlineBuild size={24} />}
+            text={"Raw Products"}
+            navigate={nav}
+            to={5}
+          />
+          <SidebarItem
             icon={<BsFileBreak size={24} />}
             text={"products"}
             navigate={nav}
@@ -64,13 +71,6 @@ const Sidebar = ({ nav }) => {
             navigate={nav}
             to={4}
           />
-          <SidebarItem
-            icon={<AiOutlineShop size={24} />}
-            text={"Raw Products"}
-            navigate={nav}
-            to={5}
-          />
-          
         </div>
       </div>
 
