@@ -9,11 +9,8 @@ def current_day():
    
     from datetime import datetime
     datetime_object = datetime.now()
-    print(datetime_object)
     day1 = datetime_object.day
     day = int(day1)
-    
-
     month1= datetime_object.month
     month = int(month1)
   
@@ -55,24 +52,25 @@ def current_day():
     return monthvalue + day
 
 def return_demand(input_array):
-    import itertools
     import numpy as np
-    import matplotlib.pyplot as plt
     import pandas as pd 
-    import pylab as pl
+    import pickle
     from sklearn import linear_model
-    day = current_day
-    df=pd.DataFrame(input_array)
-    df = pd.insert(2,[day,day,day,day,day])
- 
-    
+    filename = 'finalized_model.sav'
+    day = current_day()
+    #input_array = [[3,89]]
+    df=pd.DataFrame.from_records(input_array)
+    df[2]=[day]
     loaded_model = pickle.load(open(filename, 'rb'))
-    return loaded_model.predict(df)
+    return print(loaded_model.predict(df))
+
+   
 
 
-# data = input()
-# print(return_demand(
+data = input().split(' ')
+
+#print(return_demand(
 #     []
 # ))
 
-print(return_demand([1,10]))
+print(return_demand([[int(data[0]),int(data[1])]]))

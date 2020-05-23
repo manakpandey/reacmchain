@@ -5,18 +5,18 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-const port = 4000;
+const port = 5000;
 
 app.get("/getDemand", (req, res) => {
-  const pyshell = new PythonShell("script.py");
-
+  const pyshell = new PythonShell("getDemand.py");
+pyshell.send("5 89")
   pyshell.on("message", function (message) {
     res.send(message);
   });
 });
 
 app.post("/retrain", (req, res) => {
-  const pyshell = new PythonShell("script1.py");
+  const pyshell = new PythonShell("retrain.py");
 
   console.log(req.body);
 
