@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import "./Supplier.css";
 import {
@@ -18,6 +18,9 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import AddProduct from "../../components/forms/AddProductSupplier";
+import { rawProductAbi } from "../../abi/rawProduct.abi";
+import { mappingAbi } from "../../abi/mapping.abi";
+import { constants } from "../../config";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,27 +68,53 @@ const StyledTableRow = withStyles((theme) => ({
 const SupplierProducts = ({ web3, account }) => {
   const classes = useStyles();
 
+  const MappingContract = new web3.eth.Contract(
+    mappingAbi,
+    constants.contractAddress.Mapping
+  );
+
   const [products, setProducts] = useState([]);
+  const [myProducts, setMyProducts] = useState([]);
+
+  const updateProducts = useCallback(async () => {
+    const Products = [];
+    const result = await MappingContract.methods.getTotalSRPMappings().call();
+    for (let i = 1; i <= result; i++) {
+      const mapping = await MappingContract.methods.getSRPMapping(i).call();
+      if (mapping[0].toLowerCase() === account) {
+        Products.push({
+          ...products[mapping[1]-1],
+          price: mapping[2],
+        });
+      }
+    }
+    setMyProducts(Products);
+  }, [setMyProducts, account, products, MappingContract.methods]);
 
   useEffect(() => {
-    // const UserContract = new web3.eth.Contract(
-    //   userAbi,
-    //   constants.contractAddress.User
-    // );
-    // -------Change This-----------
-    // async function getDealers() {
-    //   const Dealers = [];
-    //   const result = await UserContract.methods.getTotalUsers().call();
-    //   for (let i = 0; i < result; i++) {
-    //     const user = await UserContract.methods.getUserByIndex(i).call();
-    //     if (user[1] === "3") {
-    //       Dealers.push(user);
-    //     }
-    //   }
-    //   setDealers(Dealers);
-    // }
-    // getDealers();
-  }, [setProducts]);
+    const RawProductContract = new web3.eth.Contract(
+      rawProductAbi,
+      constants.contractAddress.RawProduct
+    );
+
+    async function getProducts() {
+      const Products = [];
+      const result = await RawProductContract.methods.getTotalProducts().call();
+      for (let i = 1; i <= result; i++) {
+        const product = await RawProductContract.methods.getProduct(i).call();
+        Products.push({
+          id: i,
+          name: product,
+        });
+      }
+      setProducts(Products);
+    }
+    getProducts();
+  }, [setProducts, web3.eth.Contract]);
+
+  useEffect(() => {
+    updateProducts();
+  }, [updateProducts]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -113,11 +142,15 @@ const SupplierProducts = ({ web3, account }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {products.map((dealer) => (
-                  <StyledTableRow key={dealer[3]}>
-                    <StyledTableCell>{dealer[0]}</StyledTableCell>
-                    <StyledTableCell align="right">{dealer[2]}</StyledTableCell>
-                    <StyledTableCell align="right">{dealer[3]}</StyledTableCell>
+                {myProducts.map((product) => (
+                  <StyledTableRow key={product.id}>
+                    <StyledTableCell>{product.id}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {product.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {product.price}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -136,15 +169,6 @@ const SupplierProducts = ({ web3, account }) => {
             <AiOutlinePlus size={24} className={classes.extendedIcon} />
             Add Product
           </Fab>
-          <Fab
-            color="secondary"
-            aria-label="edit"
-            variant="extended"
-            style={{ margin: 10 }}
-          >
-            <MdEdit size={24} className={classes.extendedIcon} />
-            Edit Product
-          </Fab>
         </div>
       </div>
 
@@ -162,8 +186,13 @@ const SupplierProducts = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-           
-            <AddProduct web3={web3} account={account} />
+            <AddProduct
+              web3={web3}
+              account={account}
+              products={products}
+              exit={handleClose}
+              update={updateProducts}
+            />
           </div>
         </Fade>
       </Modal>

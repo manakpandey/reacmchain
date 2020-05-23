@@ -1,38 +1,37 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/product.abi";
-//import AddProductDropdown from "./AddProductDropdown";
+import { rawProductAbi } from "../../abi/rawProduct.abi";
 
-const AddProduct = ({ web3, account, update, exit }) => {
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
+const AddProduct = ({ web3, account, update, exit, products }) => {
+  const RawProductContract = new web3.eth.Contract(
+    rawProductAbi,
+    constants.contractAddress.RawProduct
   );
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [qtyInStock, setQtyInStock] = useState(0);
-  const [rawProducts, setrawProducts]= useState(0);
+  const [rawProducts, setrawProducts] = useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const gas = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
-        .estimateGas();
-      const result = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
-        .send({
-          from: account,
-          gas,
-        });
-      console.log(result);
-      update();
-      exit();
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   const gas = await ProductContract.methods
+    //     .addProduct(name, price, qtyInStock, rawProducts)
+    //     .estimateGas();
+    //   const result = await ProductContract.methods
+    //     .addProduct(name, price, qtyInStock, rawProducts)
+    //     .send({
+    //       from: account,
+    //       gas,
+    //     });
+    //   console.log(result);
+    //   update();
+    //   exit();
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   return (
@@ -56,22 +55,26 @@ const AddProduct = ({ web3, account, update, exit }) => {
             placeholder="Product Price"
           />
         </div>
-        
-        
+
         <div className="form-group">
-        <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="inputGroupSelect01">Options</label>
-  </div>
-  <select class="custom-select" id="inputGroupSelect01" multiple>
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-</div>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                Products
+              </label>
+            </div>
+            <select className="custom-select" id="inputGroupSelect01">
+              {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <button type="submit" className="btn btn-primary" >Add Product</button>
+        <button type="submit" className="btn btn-primary">
+          Add Product
+        </button>
       </form>
     </div>
   );
@@ -82,6 +85,7 @@ AddProduct.propTypes = {
   account: PropTypes.string,
   update: PropTypes.func,
   exit: PropTypes.func,
+  products: PropTypes.array,
 };
 
 export default AddProduct;

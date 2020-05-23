@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/product.abi";
-//import AddProductDropdown from "./AddProductDropdown";
+import { mappingAbi } from "../../abi/mapping.abi";
 
-const AddProduct = ({ web3, account, update, exit }) => {
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
+const AddProduct = ({ web3, account, update, exit, products }) => {
+  console.log(account);
+
+  const MappingContract = new web3.eth.Contract(
+    mappingAbi,
+    constants.contractAddress.Mapping
   );
-
-  const [name, setName] = useState("");
+  console.log(products);
+  const [selectedProduct, setSelectedProduct] = useState(1);
   const [price, setPrice] = useState(0);
-  const [qtyInStock, setQtyInStock] = useState(0);
-  const [rawProducts, setrawProducts]= useState(0);
+  const [rawProducts, setrawProducts] = useState(products);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const gas = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
+      const gas = await MappingContract.methods
+        .mapSupplierToRawProduct(selectedProduct, price)
         .estimateGas();
-      const result = await ProductContract.methods
-        .addProduct(name, price, qtyInStock, rawProducts)
+      const result = await MappingContract.methods
+        .mapSupplierToRawProduct(selectedProduct, price)
         .send({
           from: account,
           gas,
@@ -38,7 +38,26 @@ const AddProduct = ({ web3, account, update, exit }) => {
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        
+        <div className="form-group">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <label className="input-group-text" htmlFor="inputGroupSelect01">
+                Product
+              </label>
+            </div>
+            <select
+              className="custom-select"
+              id="inputGroupSelect01"
+              onChange={(t) => setSelectedProduct(t.target.value)}
+            >
+              {rawProducts.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="form-group">
           <input
             name="price"
@@ -74,6 +93,7 @@ AddProduct.propTypes = {
   account: PropTypes.string,
   update: PropTypes.func,
   exit: PropTypes.func,
+  products: PropTypes.array,
 };
 
 export default AddProduct;

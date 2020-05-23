@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/product.abi";
+import { rawProductAbi } from "../../abi/rawProduct.abi";
 
-const AddProduct = ({ web3, account, update, exit }) => {
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
+const AddRawProduct = ({ web3, account, update, exit }) => {
+  const RawProductContract = new web3.eth.Contract(
+    rawProductAbi,
+    constants.contractAddress.RawProduct
   );
 
   const [name, setName] = useState("");
@@ -14,10 +14,10 @@ const AddProduct = ({ web3, account, update, exit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const gas = await ProductContract.methods
+      const gas = await RawProductContract.methods
         .addProduct(name)
         .estimateGas();
-      const result = await ProductContract.methods
+      const result = await RawProductContract.methods
         .addProduct(name)
         .send({
           from: account,
@@ -51,11 +51,11 @@ const AddProduct = ({ web3, account, update, exit }) => {
   );
 };
 
-AddProduct.propTypes = {
+AddRawProduct.propTypes = {
   web3: PropTypes.object,
   account: PropTypes.string,
   update: PropTypes.func,
   exit: PropTypes.func,
 };
 
-export default AddProduct;
+export default AddRawProduct;

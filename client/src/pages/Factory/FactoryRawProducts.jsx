@@ -16,11 +16,10 @@ import {
   Backdrop,
 } from "@material-ui/core";
 import { AiOutlinePlus } from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { constants } from "../../config";
-import { productAbi } from "../../abi/product.abi";
-import AddProduct from "../../components/forms/AddRawProduct";
+import { rawProductAbi } from "../../abi/rawProduct.abi";
+import AddRawProduct from "../../components/forms/AddRawProduct";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,15 +66,13 @@ const StyledTableRow = withStyles((theme) => ({
 
 const FactoryRawProducts = ({ web3, account }) => {
   const classes = useStyles();
-  const ProductContract = new web3.eth.Contract(
-    productAbi,
-    constants.contractAddress.Product
+  const RawProductContract = new web3.eth.Contract(
+    rawProductAbi,
+    constants.contractAddress.RawProduct
   );
 
   const [products, setProducts] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
-  const [details, setDetails] = useState({});
 
   const handleOpen = () => {
     setOpen(true);
@@ -85,24 +82,18 @@ const FactoryRawProducts = ({ web3, account }) => {
     setOpen(false);
   };
 
-  const handleUpdateOpen = () => {
-    setUpdateOpen(true);
-  };
-
-  const handleUpdateClose = () => {
-    setUpdateOpen(false);
-  };
-
   const updateProducts = useCallback(async () => {
-    const Products = [];
-    const result = await ProductContract.methods.getTotalProducts().call();
+    const RawProducts = [];
+    const result = await RawProductContract.methods.getTotalProducts().call();
     for (let i = 1; i <= result; i++) {
-      const product = await ProductContract.methods.getProduct(i).call();
-      product.id = i;
-      Products.push(product);
+      const product = await RawProductContract.methods.getProduct(i).call();
+      RawProducts.push({
+        id: i,
+        name: product
+      });
     }
-    setProducts(Products);
-  }, [ProductContract, setProducts]);
+    setProducts(RawProducts);
+  }, [RawProductContract, setProducts]);
 
   useEffect(() => {
     updateProducts();
@@ -116,32 +107,15 @@ const FactoryRawProducts = ({ web3, account }) => {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell style={{ width: 24 }}></StyledTableCell>
-                  <StyledTableCell>PID</StyledTableCell>
+                  <StyledTableCell>Raw Product ID</StyledTableCell>
                   <StyledTableCell align="right">Name</StyledTableCell>
-                  
                 </TableRow>
               </TableHead>
               <TableBody>
                 {products.map((product) => (
                   <StyledTableRow key={product.id}>
-                    <StyledTableCell>
-                      <MdEdit
-                        size={20}
-                        onClick={() => {
-                          setDetails(product);
-                          handleUpdateOpen();
-                        }}
-                      />
-                    </StyledTableCell>
                     <StyledTableCell>{product.id}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[0]}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {product[1]}
-                    </StyledTableCell>
-                    
+                    <StyledTableCell align="right">{product.name}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -177,7 +151,7 @@ const FactoryRawProducts = ({ web3, account }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <AddProduct
+            <AddRawProduct
               web3={web3}
               account={account}
               exit={handleClose}
@@ -186,7 +160,6 @@ const FactoryRawProducts = ({ web3, account }) => {
           </div>
         </Fade>
       </Modal>
-      
     </>
   );
 };

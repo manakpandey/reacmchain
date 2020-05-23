@@ -1,79 +1,149 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import {
+  TableCell,
+  TableRow,
+  Table,
+  TableHead,
+  TableContainer,
+  TableBody,
+  Paper,
+} from "@material-ui/core";
 import "./dealer.css";
+import StatusUpdate from "../../components/commons/StatusUpdate";
+import { orderAbi } from "../../abi/order.abi";
+import { constants } from "../../config";
+import { productAbi } from "../../abi/product.abi";
 
-import TabMyOrders from "../../components/tables/TabMyOrders";
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  table: {
+    minWidth: 650,
   },
 }));
 
-export default function SimpleTabs() {
+const DealerOrders = ({ web3, account }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  function epochToTime(e) {
+    const d = new Date(0);
+    d.setUTCMilliseconds(e);
+    return d;
+  }
+
+  useEffect(() => {
+    const ProductContract = new web3.eth.Contract(
+      productAbi,
+      constants.contractAddress.Product
+    );
+    async function getData() {
+      const Products = [];
+      const resultProd = await ProductContract.methods
+        .getTotalProducts()
+        .call();
+      for (let i = 1; i <= resultProd; i++) {
+        const product = await ProductContract.methods.getProduct(i).call();
+        Products.push(product);
+      }
+      setProducts(Products);
+    }
+    getData();
+  }, [setProducts, web3.eth.Contract]);
+
+  useEffect(() => {
+    const OrderContract = new web3.eth.Contract(
+      orderAbi,
+      constants.contractAddress.Order
+    );
+    async function getData() {
+      const Orders = [];
+      const result = await OrderContract.methods.getTotalOrders().call();
+      for (let i = 1; i < result; i++) {
+        const order = await OrderContract.methods.getUser(i).call();
+        if (order[2] === account) {
+          order.id = i;
+          order.product = products[order[0] - 1];
+          Orders.push(order);
+        }
+      }
+      setOrders(Orders);
+    }
+    getData();
+  }, [setOrders, account, products, web3.eth.Contract]);
 
   return (
     <>
-      <div>
-        <div className={classes.root}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="tabs"
-            centered
-          >
-            <Tab label="My Orders" {...a11yProps(0)} />
-          </Tabs>
-
-          <TabPanel value={value} index={0}>
-            <TabMyOrders />
-          </TabPanel>
-        </div>
+      <div style={{ margin: 30, marginBottom: 100 }}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Order ID</StyledTableCell>
+                <StyledTableCell align="right">Product</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Amount</StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
+                <StyledTableCell align="right">Created At</StyledTableCell>
+                <StyledTableCell align="right">Updated At</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orders.map((order) => (
+                <StyledTableRow key={order.id}>
+                  <StyledTableCell>{order.id}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order.product}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{order[1]}</StyledTableCell>
+                  <StyledTableCell align="right">{order[5]}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    <StatusUpdate status={order[6]} />
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {epochToTime(order[8])}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {epochToTime(order[9])}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );
-}
+};
+
+DealerOrders.propTypes = {
+  web3: PropTypes.object,
+  account: PropTypes.string,
+};
+
+export default DealerOrders;
