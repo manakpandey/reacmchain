@@ -23,18 +23,18 @@ const Supplier = ({ web3, account }) => {
       case 2:
         return (
           <>
-          <Typography variant="h5">Products</Typography>
-          <SupplierProducts web3={web3} account={account} />
+            <Typography variant="h5">Products</Typography>
+            <SupplierProducts web3={web3} account={account} />
           </>
         );
       default:
         return (
           <>
-            <div class = "dashboardtext">
-            <Typography variant="h5">Dashboard</Typography>
+            <div className="dashboardtext">
+              <Typography variant="h5">Dashboard</Typography>
             </div>
-            <div class = "ratingdiv">
-              <SRating/>
+            <div className="ratingdiv">
+              <SRating web3={web3} account={account} />
             </div>
             <SupplierOrders web3={web3} account={account} />
           </>

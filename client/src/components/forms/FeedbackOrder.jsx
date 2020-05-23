@@ -38,11 +38,11 @@ const FeedbackOrder = ({ web3, account, oid, exit }) => {
           value={feedback}
           onChange={(t) => setFeedback(t.target.value)}
         >
-          <option value={1}>Excellent</option>
-          <option value={2}>OK</option>
+          <option value={5}>Excellent</option>
+          <option value={4}>OK</option>
           <option value={3}>Average</option>
-          <option value={4}>Bad</option>
-          <option value={5}>Worst</option>
+          <option value={2}>Bad</option>
+          <option value={1}>Worst</option>
         </select>
       </div>
 
