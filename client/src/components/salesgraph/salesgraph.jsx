@@ -55,7 +55,6 @@ class SalesGraph extends PureComponent {
         margin={{
           top: 5, right: 30, left: 20, bottom: 5,
         }}
-        data={data}
         margin={{
           top: 50, right: 50, left: 50, bottom: 50,
         }}
