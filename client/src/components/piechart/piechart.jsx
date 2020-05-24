@@ -1,53 +1,154 @@
-import React, { PureComponent } from 'react';
-import {
-  PieChart, Pie, Sector, Cell, ResponsiveContainer
-} from 'recharts';
+import { ResponsivePie } from '@nivo/pie'
+import React from "react";
+import { Typography } from "@material-ui/core";
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx, cy, midAngle, innerRadius, outerRadius, percent, index,
-}) => {
-   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
-export default class PChart extends PureComponent {
-  render() {
-    return (
-        <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-        <Pie
-          data={data}
-          cx={250}
-          cy={200}
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {
-            data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-          }
-        </Pie>
-      </PieChart>
-        </ResponsiveContainer>
-    );
-  }
+const PChart = () => {
+  const data= [
+    {
+      "id": "shampoo",
+      "label": "Shampoo",
+      "value": 25,
+      "color": "hsl(148, 70%, 50%)"
+    },
+    {
+      "id": "facewash",
+      "label": "Face Wash",
+      "value": 35,
+      "color": "hsl(326, 70%, 50%)"
+    },
+    {
+      "id": "soap",
+      "label": "Soap",
+      "value": 20,
+      "color": "hsl(337, 70%, 50%)"
+    },
+    {
+      "id": "bodylotion",
+      "label": "Body Lotion",
+      "value": 5,
+      "color": "hsl(151, 70%, 50%)"
+    },
+    {
+      "id": "perfume",
+      "label": "Perfume",
+      "value": 15,
+      "color": "hsl(207, 70%, 50%)"
+    }
+  ];
+  return(
+  <ResponsivePie
+    data={data}
+    margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+    innerRadius={0.5}
+    padAngle={0.7}
+    cornerRadius={3}
+    colors={{ scheme: 'nivo' }}
+    borderWidth={1}
+    borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
+    radialLabelsSkipAngle={10}
+    radialLabelsTextXOffset={6}
+    radialLabelsTextColor="#333333"
+    radialLabelsLinkOffset={0}
+    radialLabelsLinkDiagonalLength={16}
+    radialLabelsLinkHorizontalLength={24}
+    radialLabelsLinkStrokeWidth={1}
+    radialLabelsLinkColor={{ from: 'color' }}
+    slicesLabelsSkipAngle={10}
+    slicesLabelsTextColor="#333333"
+    animate={true}
+    motionStiffness={90}
+    motionDamping={15}
+    defs={[
+        {
+            id: 'dots',
+            type: 'patternDots',
+            background: 'inherit',
+            color: 'rgba(255, 255, 255, 0.3)',
+            size: 4,
+            padding: 1,
+            stagger: true
+        },
+        {
+            id: 'lines',
+            type: 'patternLines',
+            background: 'inherit',
+            color: 'rgba(255, 255, 255, 0.3)',
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10
+        }
+    ]}
+    fill={[
+        {
+            match: {
+                id: 'ruby'
+            },
+            id: 'dots'
+        },
+        {
+            match: {
+                id: 'c'
+            },
+            id: 'dots'
+        },
+        {
+            match: {
+                id: 'go'
+            },
+            id: 'dots'
+        },
+        {
+            match: {
+                id: 'python'
+            },
+            id: 'dots'
+        },
+        {
+            match: {
+                id: 'scala'
+            },
+            id: 'lines'
+        },
+        {
+            match: {
+                id: 'lisp'
+            },
+            id: 'lines'
+        },
+        {
+            match: {
+                id: 'elixir'
+            },
+            id: 'lines'
+        },
+        {
+            match: {
+                id: 'javascript'
+            },
+            id: 'lines'
+        }
+    ]}
+    legends={[
+        {
+            anchor: 'bottom',
+            direction: 'row',
+            translateY: 56,
+            itemWidth: 100,
+            itemHeight: 18,
+            itemTextColor: '#999',
+            symbolSize: 18,
+            symbolShape: 'circle',
+            effects: [
+                {
+                    on: 'hover',
+                    style: {
+                        itemTextColor: '#000'
+                    }
+                }
+            ]
+        }
+    ]}
+/>);
 }
+    
+export default PChart;

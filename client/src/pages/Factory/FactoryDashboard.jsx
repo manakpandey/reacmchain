@@ -6,6 +6,7 @@ import InventoryTable from "../../components/inventorytable/inventorytable";
 import { Typography } from "@material-ui/core";
 
 const FactoryDashboard = () => {
+
   return (
     <div className="dashboard-container">
       <div className="salesgraph">
@@ -17,7 +18,7 @@ const FactoryDashboard = () => {
           <InventoryTable />
         </div>
         <div className="piechart">
-          <PChart />
+          <PChart/>
         </div>
       </div>
     </div>
