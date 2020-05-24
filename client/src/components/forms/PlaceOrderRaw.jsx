@@ -140,6 +140,7 @@ const PlaceOrderRaw = ({ web3, account, exit }) => {
             id="exampleFormControlSelect1"
             onChange={(t) => setSelectedProduct(t.target.value)}
           >
+            <option value="">Select Raw Product</option>
             {products.map((product) => (
               <option key={product.id} value={product.id}>
                 {product.name}

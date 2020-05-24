@@ -3,8 +3,26 @@ import PropTypes from "prop-types";
 import { constants } from "../../config";
 import { orderAbi } from "../../abi/order.abi";
 import { productAbi } from "../../abi/product.abi";
+import { Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 10,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const PlaceOrder = ({ web3, account }) => {
+  const classes = useStyles();
+
   const OrderContract = new web3.eth.Contract(
     orderAbi,
     constants.contractAddress.Order
@@ -74,38 +92,48 @@ const PlaceOrder = ({ web3, account }) => {
     }
   };
   return (
-    <div>
-      <div className="form-group">
-        <select
-          className="form-control"
-          onChange={(t) => setSelectedProduct(t.target.value)}
-        >
-          <option aria-label="None" value="">
-            Select Product
-          </option>
-          {products.map((product) => (
-            <option key={product.id} value={product.id}>
-              {`${product[0]} (${product[1]})`}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <Paper className={classes.paper}>
+        <div className="form-group">
+          <select
+            className="form-control"
+            onChange={(t) => setSelectedProduct(t.target.value)}
+          >
+            <option aria-label="None" value="">
+              Select Product
             </option>
-          ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <input
-          type="number"
-          name="qty"
-          onChange={(t) => setQty(t.target.value)}
-          className="form-control"
-          placeholder={`Quantity`}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="total">Total</label>
-        <div>{total}</div>
-      </div>
-      <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
-        Place Order
-      </button>
+            {products.map((product) => (
+              <option key={product.id} value={product.id}>
+                {`${product[0]} (${product[1]})`}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <input
+            type="number"
+            name="qty"
+            onChange={(t) => setQty(t.target.value)}
+            className="form-control"
+            placeholder={`Quantity`}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="total">Total</label>
+          <div>{total}</div>
+        </div>
+        <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+          Place Order
+        </button>
+      </Paper>
     </div>
   );
 };
