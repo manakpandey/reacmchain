@@ -21,6 +21,13 @@ Reacmchain is a React and Blockchain platform to manage and improve the supply c
         3.  Give alerts in case of an issue
         4.  Provide inventory suggestions.
 
+## Pre-requisites
+
+* Node v12.x
+* Truffle:
+```bash
+npm install -g truffle
+```
 
 ## Installation
 
@@ -43,7 +50,7 @@ This will give you following output:
 
 ![](https://github.com/manakpandey/reacmchain/blob/master/client/public/config.PNG)
 
-*  Install and start an ethereum wallet for your browser and connect it to the priivate blockchain, we recommment Metamask
+*  Install and start an ethereum wallet for your browser and connect it to the private blockchain, we recommmend Metamask.
 
 * To run the web application go to reachmchain directory in the terminal and give following commands:
 ```bash
