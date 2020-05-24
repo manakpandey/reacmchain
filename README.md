@@ -33,9 +33,7 @@ git clone https://github.com/manakpandey/reacmchain.git
 
 * In the command terminal give the following commands to migrate the contracts to the ganache private blockchain.
 ```bash
-cd reacmchain
-cd blockchain
-truffle compile
+cd reacmchain/blockchain
 truffle migrate
 ```
 This will give you following output:
@@ -53,11 +51,12 @@ cd client
 npm install
 npm start
 ```
-* In the localhost address, Metamask will be activated and the dashboard for factory will be loaded.
+* In the localhost address, Metamask will be activated and the dashboard for factory will be loaded. ( It creates a factory user automatically when run for the first time. )
 
 * To access multiple accounts use the private keys from the Ganache application for different contract addresses and import those accounts.
 
-# Developers
+# Contributers
+
 * [Akshita Saini](https://www.linkedin.com/in/akshita-saini-0782a61a1)
 
 * [Harshal Shree](https://www.linkedin.com/in/harshal-shree)
