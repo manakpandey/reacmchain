@@ -1,10 +1,10 @@
 export const constants = {
   contractAddress: {
-    User: "0x09EB10e7cb9790649575dFB82e6dD3A42D938a82",
-    Product: "0x6D9b7FAc3C9648f72aAb266db7Deb9bC7a75238e",
-    RawProduct: "0xDD97a1B8F4bdE3b4B5e032A13B9976b4F8669d8e",
-    Mapping: "0x96579f0613B00302C374e4584F0eddada50c1a99",
-    Order: "0x4002B18Af4B5724a2f77b941093Db43bfC69fA18",
+    User: "0x04933318f9C1195eDA14044F2fD4D7405b26FC7C",
+    Product: "0x3374CE122BE3E6aDa31D54290e63b091f0363060",
+    RawProduct: "0xe884610846006E01EE7CbDfacfD41FAB4ffcEfFE",
+    Mapping: "0xCF2De115b0806aB138aeb3465B6e197f61bade37",
+    Order: "0x36CE130169665DeB063784A4Cf523e04244558C5",
   },
   apiUrl: "http://localhost:5000",
 };
