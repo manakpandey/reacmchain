@@ -61,7 +61,7 @@ npm start
 
 * [Harshal Shree](https://www.linkedin.com/in/harshal-shree)
 
-* [Manak Pandey](https://www.linkedin.com/in/manakpandey)
+* [Manak Pandey](https://www.github.com/manakpandey)
 
 * [Shreya Shrivastava](https://www.linkedin.com/in/shreya-shrivastava-6b1aba192)
 
