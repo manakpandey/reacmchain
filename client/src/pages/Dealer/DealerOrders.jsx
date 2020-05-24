@@ -99,6 +99,7 @@ const DealerOrders = ({ web3, account }) => {
           });
         }
       }
+      Orders.reverse();
       setOrders(Orders);
     }
     getData();

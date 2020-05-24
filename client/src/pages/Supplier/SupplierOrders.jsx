@@ -19,7 +19,6 @@ import { orderAbi } from "../../abi/order.abi";
 import { constants } from "../../config";
 import { rawProductAbi } from "../../abi/rawProduct.abi";
 import { MdEdit } from "react-icons/md";
-import SRating from "../../components/rating/rating";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -118,6 +117,7 @@ const SupplierOrders = ({ web3, account }) => {
           Orders.push(order);
         }
       }
+      Orders.reverse();
       setOrders(Orders);
     }
     getData();

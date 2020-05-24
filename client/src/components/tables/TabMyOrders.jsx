@@ -139,6 +139,7 @@ const TabMyOrders = ({ web3, account }) => {
           });
         }
       }
+      Orders.reverse();
       setOrders(Orders);
     }
     getOrders();
