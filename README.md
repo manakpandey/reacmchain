@@ -1,6 +1,6 @@
 # Reacmchain
 
-Reacmchain is a react-blockchain platform to manage and improve the supply chains of a company, aimed at revamping the supply chain management by incorporating the entire network of suppliers, manufacturers, dealers and consumers on a single unified blockchain. 
+Reacmchain is a React and Blockchain platform to manage and improve the supply chains of a company, aimed at revamping the supply chain management by incorporating the entire network of suppliers, manufacturers, dealers and consumers on a single unified blockchain. 
 
 
 ### **FEATURES**
@@ -42,7 +42,7 @@ npm install
 
 * To start the ganache blockchain, open ganache application and click on Quickstart Ethereum. 
 
-
+![](https://github.com/manakpandey/reacmchain/blob/master/client/public/ganache.PNG)
 * In the command terminal give the following commands to migrate the contracts to the ganache private blockchain.
 
 
@@ -52,23 +52,41 @@ cd blockchain
 truffle compile
 truffle migrate
 ```
+This will give you following output:
+![](https://github.com/manakpandey/reacmchain/blob/master/client/public/contract_add.PNG)
 
+* Copy the contract address for user,product, rawproduct, mapping and order from the terminal output and paste them in reachmchain/client/src/config.js
 
+![](https://github.com/manakpandey/reacmchain/blob/master/client/public/config.PNG)
 
-## Usage
+* To employ Metamask to get the wallet key for accessing the Blockchain, install the Metamask browser extension.
+Click on the "Import using account seed phrase" link at the bottom of the popup.
+Open Ganache window and copy the mnemonic. Paste the mnemonic in the Seed phrase textbox of the Metamask, choose a password and restore your account.
 
-```python
-import foobar
+![](https://github.com/manakpandey/reacmchain/blob/master/client/public/ganache_internal.PNG)
 
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+* To run the web application go to reachmchain directory in the terminal and give following commands:
+```bash
+cd client
+npm install
+npm start
 ```
+* In the localhost address, Metamask will be activated and the dashboard for factory will be loaded.
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+* To access multiple accounts use the private keys from the Ganache application for different contract addresses and import those accounts.
 
-Please make sure to update tests as appropriate.
+# Developers
+* [Akshita Saini](https://www.linkedin.com/in/akshita-saini-0782a61a1)
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+* [Harshal Shree](https://www.linkedin.com/in/harshal-shree)
+
+* [Manak Pandey](https://www.linkedin.com/in/manakpandey)
+
+* [Shreya Shrivastava](https://www.linkedin.com/in/shreya-shrivastava-6b1aba192)
+
+
+
+
+
+
+
