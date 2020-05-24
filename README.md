@@ -12,7 +12,6 @@ Reacmchain is a React and Blockchain platform to manage and improve the supply c
 * ***Issue Tracking:*** In an event of complaint from the client, it can track down the history of the product and all those associated with its production to find out the defaulter. 
 * ***Decide Reliability:*** It will be able to judge reliability on the basis of user feedback. In case, a particular supplier loses reliability, it can shift to a more suitable supplier with the help of its reliability rank.
 * ***Inventory Alerts:*** We can also analyse and automatically suggest the orders that will be required based on the flow of the goods in the blockchain without compromising the privacy of either party. This will save the expenses of maintaining an inventory.
-* ***Geo-based Inventory Alerts:*** The manufacturer can analyse the quality of the raw materials being supplied by studying the customer evaluation of the end product, for a given period of time, to shift resources accordingly. 
 
  This will perform the following:
 		
@@ -30,22 +29,9 @@ Reacmchain is a React and Blockchain platform to manage and improve the supply c
 ```bash
 git clone https://github.com/manakpandey/reacmchain.git
 ```
-* To install truffle suite and ganache(private blockchain) go to the desired directory and give command:
-```bash
-npm install -g truffle
-git clone https://github.com/trufflesuite/ganache.git
+* Start a private blockchain, we suggest Ganache.
 
-cd ganache
-
-npm install
-```
-
-* To start the ganache blockchain, open ganache application and click on Quickstart Ethereum. 
-
-![](https://github.com/manakpandey/reacmchain/blob/master/client/public/ganache.PNG)
 * In the command terminal give the following commands to migrate the contracts to the ganache private blockchain.
-
-
 ```bash
 cd reacmchain
 cd blockchain
@@ -59,11 +45,7 @@ This will give you following output:
 
 ![](https://github.com/manakpandey/reacmchain/blob/master/client/public/config.PNG)
 
-* To employ Metamask to get the wallet key for accessing the Blockchain, install the Metamask browser extension.
-Click on the "Import using account seed phrase" link at the bottom of the popup.
-Open Ganache window and copy the mnemonic. Paste the mnemonic in the Seed phrase textbox of the Metamask, choose a password and restore your account.
-
-![](https://github.com/manakpandey/reacmchain/blob/master/client/public/ganache_internal.PNG)
+*  Install and start an ethereum wallet for your browser and connect it to the priivate blockchain, we recommment Metamask
 
 * To run the web application go to reachmchain directory in the terminal and give following commands:
 ```bash
